@@ -43,10 +43,9 @@ const HOST = 'localhost';
         $fields = array_keys($values);
         $binds = array_fill(0, count($fields), '?');
 
-        $fieldList = implode(',', array_map(function($f){ return "`".$f."`"; }, $fields));
-        $placeholders = implode(',', $binds);
+        
 
-        $query = 'INSERT INTO `'.$this->table.'` ('.$fieldList.') VALUES ('.$placeholders.')';
+        $query = 'INSERT INTO `'.$this->table.'` ('.implode(',', $fields).') VALUES ('.implode(',', $binds).')';
 
         $stmt = $this->connection->prepare($query);
         $stmt->execute(array_values($values));
