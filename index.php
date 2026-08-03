@@ -13,6 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $submitted = true;
 }
 require 'vendor/autoload.php';
+use App\Entity\Vaga;
+
+$vagas = Vaga::getVagas();
+
 include 'includes/header.php';
 include 'includes/footer.php';
 include 'includes/listagem.php';

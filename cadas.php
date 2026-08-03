@@ -14,7 +14,8 @@ if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimen
     $obVaga->senha = $_POST['senha'];
     $obVaga->cadastrar();
 
-    // Aqui você pode salvar a vaga no banco de dados ou realizar outras operações
+    header('location: index.php?status=success');
+    exit;
 }
 
 include 'includes/header.php';

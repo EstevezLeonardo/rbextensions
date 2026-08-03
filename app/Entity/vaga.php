@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use \App\Db\Database;
+use \PDO;
 
 class Vaga{
     public $id;
@@ -19,12 +20,17 @@ class Vaga{
     $senhahash = password_hash($this->senha, PASSWORD_DEFAULT);
     $this->senha = $senhahash;
     $obDatabase = new Database('rbextensionst');
-    $obDatabase->insert([
-        'nome' => $this->nome,
-        'sobrenome' => $this->sobrenome,
-        'email' => $this->email,
-        'datanascimento' => $this->datanascimento,
-        'senha' => $this->senha
-    ]);    
+    $this->id = $obDatabase->insert([
+                        'nome' => $this->nome,
+                        'sobrenome' => $this->sobrenome,
+                        'email' => $this->email,
+                        'datanascimento' => $this->datanascimento,
+                        'senha' => $this->senha
+            ]);
+        return true;    
+    }
+    public static function getVagas($where = null, $order = null, $limit = null){
+        return (new Database('rbextensionst'))->select($where,$order,$limit)
+                                            ->fetchAll(PDO::FETCH_CLASS,self::class);
     }
 }
