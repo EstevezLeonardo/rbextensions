@@ -24,6 +24,10 @@
         <input type="date" class="form-control"  name="datanascimento" required>
     </div>
     <div class="form-group">
+        <label for="senha">Senha:</label>
+        <input type="password" class="form-control"  name="senha" required>
+    </div>
+    <div class="form-group">
          <button type="submit" class="btn btn-success">Enviar</button>
     </div>
     <div>

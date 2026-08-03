@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sobrenome = isset($_POST['sobrenome']) ? trim($_POST['sobrenome']) : '';
     $email = isset($_POST['email']) ? trim($_POST['email']) : '';
     $datanascimento = isset($_POST['datanascimento']) ? trim($_POST['datanascimento']) : '';
+    $senha = isset($_POST['senha']) ? trim($_POST['senha']) : '';
     $submitted = true;
 }
 require 'vendor/autoload.php';
