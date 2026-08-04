@@ -21,7 +21,7 @@
     </div>
     <div class="form-group">
         <label for="datanascimento">Data de Nascimento:</label>
-        <input type="date" class="form-control"  name="datanascimento" required>
+        <input type="datetime-local" class="form-control" name="datanascimento" required>
     </div>
     <div class="form-group">
         <label for="senha">Senha:</label>
