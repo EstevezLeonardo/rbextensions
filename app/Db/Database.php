@@ -62,4 +62,23 @@ const HOST = 'localhost';
 
         return $this->execute($query);
     }
+
+    public function update($where, $values) {
+        $fields = array_keys($values);
+
+        $query = 'UPDATE `'.$this->table.'` SET '.implode('=?,', $fields).'=? WHERE '.$where;
+
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(array_values($values));
+
+        return true;
+    }
+    public function delete($where) {
+        $query = 'DELETE FROM `'.$this->table.'` WHERE '.$where;
+
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+
+        return true;
+    }
 }

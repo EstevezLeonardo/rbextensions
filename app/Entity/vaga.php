@@ -29,8 +29,26 @@ class Vaga{
             ]);
         return true;    
     }
+    public function atualizar(){
+        return (new Database('rbextensionst'))->update('id = '.$this->id,[
+                        'nome' => $this->nome,
+                        'sobrenome' => $this->sobrenome,
+                        'email' => $this->email,
+                        'datanascimento' => $this->datanascimento,
+                        'senha' => $this->senha
+            ]);
+    }
+public function excluir(){
+        return (new Database('rbextensionst'))->delete('id = '.$this->id);
+    }
+
     public static function getVagas($where = null, $order = null, $limit = null){
         return (new Database('rbextensionst'))->select($where,$order,$limit)
                                             ->fetchAll(PDO::FETCH_CLASS,self::class);
+    }
+
+    public static function getVaga($id){
+        return (new Database('rbextensionst'))->select('id = '.$id)
+                                            ->fetchObject(self::class);
     }
 }
