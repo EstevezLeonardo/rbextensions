@@ -1,5 +1,7 @@
 <?php 
 
+    $busca = isset($busca) ? $busca : '';
+
     $mensagem = '';
     if(isset($_GET['status'])) {
         switch($_GET['status']) {
@@ -48,7 +50,22 @@
         </a>
     </section>
     <section>
-         <table class="table">
+        <form method="get">
+            <div class="row my-4"> 
+            
+                <div class="col">
+                    <label for="busca">Pesquisar:</label>
+                    <input type="text" name="busca" class="form-control" placeholder="Pesquisar por nome ou sobrenome" value="<?=$busca?>">
+                </div>
+                <div class="col d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary">Pesquisar</button>
+                </div>
+
+        </form>
+    </section>
+
+    <section>
+         <table class="table bg-light mt-3">
             <thead>
                 <tr>
                     <th>ID</th>

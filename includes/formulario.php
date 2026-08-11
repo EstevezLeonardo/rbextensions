@@ -27,7 +27,7 @@
             <label for="senha">Senha:</label>
             <input type="password" class="form-control"  name="senha" required>
         </div>
-        <div class="form-group">
+        <div class="form-group mt-3">
             <button type="submit" class="btn btn-success">Enviar</button>
         </div>
         <div>

@@ -1,21 +1,14 @@
 <?php
-$nome = '';
-$sobrenome = '';
-$email = '';
-$datanascimento = '';
-$submitted = false;
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome = isset($_POST['nome']) ? trim($_POST['nome']) : '';
-    $sobrenome = isset($_POST['sobrenome']) ? trim($_POST['sobrenome']) : '';
-    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-    $datanascimento = isset($_POST['datanascimento']) ? trim($_POST['datanascimento']) : '';
-    $senha = isset($_POST['senha']) ? trim($_POST['senha']) : '';
-    $submitted = true;
-}
+
 require 'vendor/autoload.php';
+
 use App\Entity\Vaga;
 
-$vagas = Vaga::getVagas();
+$busca = isset($_GET['busca']) ? htmlspecialchars(trim($_GET['busca']), ENT_QUOTES, 'UTF-8') : '';
+
+$condicao = !empty($busca) ? "nome LIKE '%{$busca}%' OR sobrenome LIKE '%{$busca}%'" : '';
+
+$vagas = Vaga::getVagas($condicao);
 
 include 'includes/header.php';
 include 'includes/footer.php';
