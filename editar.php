@@ -23,7 +23,8 @@ if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimen
     $obVaga->sobrenome = $_POST['sobrenome'];
     $obVaga->email = $_POST['email'];
     $obVaga->datanascimento = $_POST['datanascimento'];
-    
+    $obVaga->ativo = $_POST['ativo'];
+
     $obVaga->atualizar();
 
     header('location: index.php?status=success');

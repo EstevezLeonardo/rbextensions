@@ -21,8 +21,10 @@
                                 <td>'.$vaga->id.'</td>
                                 <td>'.$vaga->nome.'</td>
                                 <td>'.$vaga->sobrenome.'</td>
+                                <td>'.($vaga->ativo === 's' ? 'Ativo' : 'Inativo').'</td>
                                 <td>'.$vaga->email.'</td>
                                 <td>'.$vaga->datanascimento.'</td>
+                                
                                 <td>
                                     <a href="editar.php?id='.$vaga->id.'">
                                         <button class="btn btn-primary">Editar</button>
@@ -50,6 +52,7 @@
         </a>
     </section>
     <section>
+       
         <form method="get">
             <div class="row my-4"> 
             
@@ -57,28 +60,39 @@
                     <label for="busca">Pesquisar:</label>
                     <input type="text" name="busca" class="form-control" placeholder="Pesquisar por nome ou sobrenome" value="<?=$busca?>">
                 </div>
+
+                
+
                 <div class="col d-flex align-items-end">
                     <button type="submit" class="btn btn-primary">Pesquisar</button>
                 </div>
 
-        </form>
+            </div>
+
+         </form>
+
     </section>
 
     <section>
-         <table class="table bg-light mt-3">
+         
+        <table class="table bg-light mt-3">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
                     <th>Sobrenome</th>
+                    <th>Status</th>
                     <th>Email</th>
                     <th>Data de Nascimento</th>
                     <th>Ações</th>
                 </tr>
             </thead>
+            
             <tbody>
                 <?= $resultados ?>
             </tbody>
+
          </table>
+
     </section>
 </main>

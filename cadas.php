@@ -13,6 +13,7 @@ if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimen
     $obVaga->email = $_POST['email'];
     $obVaga->datanascimento = $_POST['datanascimento'];
     $obVaga->senha = $_POST['senha'];
+    $obVaga->ativo = $_POST['ativo'];
     $obVaga->cadastrar();
 
     header('location: index.php?status=success');

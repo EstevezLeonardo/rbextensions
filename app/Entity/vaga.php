@@ -9,20 +9,24 @@ class Vaga{
     public $id;
     public $nome;
     public $sobrenome;
+    public $ativo;
     public $email;
     public $datanascimento;
     public $senha;
     
+    
     public function cadastrar(){
     $this->datanascimento = $_POST['datanascimento'];
     $this->senha = $_POST['senha'];
-        
+    $this->ativo = $_POST['ativo'] === 's' ? 's' : 'n';
     $senhahash = password_hash($this->senha, PASSWORD_DEFAULT);
     $this->senha = $senhahash;
+
     $obDatabase = new Database('rbextensionst');
     $this->id = $obDatabase->insert([
                         'nome' => $this->nome,
                         'sobrenome' => $this->sobrenome,
+                        'ativo' => $this->ativo,
                         'email' => $this->email,
                         'datanascimento' => $this->datanascimento,
                         'senha' => $this->senha
@@ -33,6 +37,7 @@ class Vaga{
         return (new Database('rbextensionst'))->update('id = '.$this->id,[
                         'nome' => $this->nome,
                         'sobrenome' => $this->sobrenome,
+                        'ativo' => $this->ativo,
                         'email' => $this->email,
                         'datanascimento' => $this->datanascimento,
                         'senha' => $this->senha
