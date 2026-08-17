@@ -14,14 +14,15 @@ class Pagination{
 
     public function __construct($results, $currentPage = 1, $limit = 10){
 
-        $this->results = $results;
+            $this->results = (int) $results;
 
-        $this->limit = $limit;
+            $this->limit = (int) $limit;
 
-        $this->currentPage = (is_numeric($currentPage) and $currentPage > 0 ? $currentPage : 1);
+            // use && and cast to int to avoid precedence issues and ensure numeric values
+            $this->currentPage = (is_numeric($currentPage) && $currentPage > 0) ? (int) $currentPage : 1;
 
-        $this->calculate();
-    }
+            $this->calculate();
+        }
 
     private function calculate(){
         
@@ -32,10 +33,11 @@ class Pagination{
     }
 
     public function getLimit(){
-        $offset = ($this->limit * ($this->currentPage - 1));
-        return $offset. ', ' . $this->limit;
+            $offset = (int) ($this->limit * ($this->currentPage - 1));
+            $limit = (int) $this->limit;
+            return $offset . ', ' . $limit;
 
-    } 
+        } 
 
     public function getPages(){
         if($this->pages == 1) return[];

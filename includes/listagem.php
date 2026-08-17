@@ -1,6 +1,7 @@
 <?php 
 
     $busca = isset($busca) ? $busca : '';
+    $filtroativo = isset($filtroativo) ? $filtroativo : '';
 
     $mensagem = '';
     if(isset($_GET['status'])) {
@@ -42,11 +43,11 @@
     $resultados = strlen($resultados) ? $resultados : '<tr><td colspan="6" class="text-center">Nenhum registro encontrado.</td></tr>';
                  
     $paginacao = '';
-    $paginas = $obPagination->getPages();
+    $paginas = $obPagination->getPages(); 
     foreach($paginas as $key=>$pagina) {
-        
-        $paginacao .= '<a href="?pagina='.$pagina['pagina'].'">
-                            <button type="button" class="btn btn-light">'.$pagina['pagina'].'</button>
+        $class = $pagina['atual'] ? 'btn-primary' : 'btn-secondary';
+        $paginacao .= '<a href="?pagina='.$pagina['pagina'].'&busca='.$busca.'&status='.$filtroativo.'">
+                            <button class="btn '.$class.'">'.$pagina['pagina'].'</button>
                         </a>';
     }
 ?>
