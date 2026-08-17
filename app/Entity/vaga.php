@@ -43,17 +43,22 @@ class Vaga{
                         'senha' => $this->senha
             ]);
     }
-public function excluir(){
-        return (new Database('rbextensionst'))->delete('id = '.$this->id);
-    }
+    public function excluir(){
+            return (new Database('rbextensionst'))->delete('id = '.$this->id);
+        }
 
     public static function getVagas($where = null, $order = null, $limit = null){
         return (new Database('rbextensionst'))->select($where,$order,$limit)
-                                            ->fetchAll(PDO::FETCH_CLASS,self::class);
-    }
+                                                ->fetchAll(PDO::FETCH_CLASS,self::class);
+        }
+
+    public static function getTotalVagas($where = null){
+        return (new Database('rbextensionst'))->select($where, null, null, 'COUNT(*) as total')
+                                                ->fetchObject()->total;
+        }
 
     public static function getVaga($id){
         return (new Database('rbextensionst'))->select('id = '.$id)
-                                            ->fetchObject(self::class);
-    }
+                                                ->fetchObject(self::class);
+        }
 }

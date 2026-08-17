@@ -40,7 +40,15 @@
     }
 
     $resultados = strlen($resultados) ? $resultados : '<tr><td colspan="6" class="text-center">Nenhum registro encontrado.</td></tr>';
-
+                 
+    $paginacao = '';
+    $paginas = $obPagination->getPages();
+    foreach($paginas as $key=>$pagina) {
+        
+        $paginacao .= '<a href="?pagina='.$pagina['pagina'].'">
+                            <button type="button" class="btn btn-light">'.$pagina['pagina'].'</button>
+                        </a>';
+    }
 ?>
 <main>
 
@@ -51,6 +59,7 @@
             <button class="btn btn-success">Cadastrar Usuário</button>
         </a>
     </section>
+
     <section>
        
         <form method="get">
@@ -61,7 +70,16 @@
                     <input type="text" name="busca" class="form-control" placeholder="Pesquisar por nome ou sobrenome" value="<?=$busca?>">
                 </div>
 
-                
+                <div class="col">
+                    <label for="ativo">Status:</label>
+                    
+                    <select name="status" class="form-control">
+                        <option value="">Todos</option>
+                        <option value="s" <?= isset($filtroativo) && $filtroativo === 's' ? 'selected' : '' ?>>Ativo</option>
+                        <option value="n" <?= isset($filtroativo) && $filtroativo === 'n' ? 'selected' : '' ?>>Inativo</option>
+                    
+                    </select>
+                </div>
 
                 <div class="col d-flex align-items-end">
                     <button type="submit" class="btn btn-primary">Pesquisar</button>
@@ -95,4 +113,10 @@
          </table>
 
     </section>
+    
+    <section>
+        <?= $paginacao ?>
+    </section>
+
+
 </main>
