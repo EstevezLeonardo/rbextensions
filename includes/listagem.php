@@ -1,4 +1,4 @@
-<?php 
+<?php
 
     $busca = isset($busca) ? $busca : '';
     $filtroativo = isset($filtroativo) ? $filtroativo : '';
@@ -7,10 +7,10 @@
     if(isset($_GET['status'])) {
         switch($_GET['status']) {
             case 'success':
-                $mensagem = '<div class="alert alert-success">Ação executada com sucesso!</div>';
+                $mensagem = '<p><strong>Ação executada com sucesso!</strong></p>';
                 break;
             case 'error':
-                $mensagem = '<div class="alert alert-danger">Ação não executada!</div>';
+                $mensagem = '<p><strong>Ação não executada!</strong></p>';
                 break;
         }
     }
@@ -25,76 +25,70 @@
                                 <td>'.($vaga->ativo === 's' ? 'Ativo' : 'Inativo').'</td>
                                 <td>'.$vaga->email.'</td>
                                 <td>'.$vaga->datanascimento.'</td>
-                                
+
                                 <td>
                                     <a href="editar.php?id='.$vaga->id.'">
-                                        <button class="btn btn-primary">Editar</button>
+                                        <button>Editar</button>
                                     </a>
                                     <a href="excluir.php?id='.$vaga->id.'">
-                                        <button class="btn btn-danger">Excluir</button>
+                                        <button>Excluir</button>
                                     </a>
                                 </td>
                             </tr>';
         }
     } else {
-        $resultados = '<tr><td colspan="6" class="text-center">Nenhum registro encontrado.</td></tr>';
+        $resultados = '<tr><td colspan="6">Nenhum registro encontrado.</td></tr>';
     }
 
-    $resultados = strlen($resultados) ? $resultados : '<tr><td colspan="6" class="text-center">Nenhum registro encontrado.</td></tr>';
-                 
+    $resultados = strlen($resultados) ? $resultados : '<tr><td colspan="6">Nenhum registro encontrado.</td></tr>';
+
     $paginacao = '';
-    $paginas = $obPagination->getPages(); 
+    $paginas = $obPagination->getPages();
     foreach($paginas as $key=>$pagina) {
-        $class = $pagina['atual'] ? 'btn-primary' : 'btn-secondary';
-        $paginacao .= '<a href="?pagina='.$pagina['pagina'].'&busca='.$busca.'&status='.$filtroativo.'">
-                            <button class="btn '.$class.'">'.$pagina['pagina'].'</button>
-                        </a>';
+        if ($pagina['atual']) {
+            $paginacao .= '<button disabled>'.$pagina['pagina'].'</button>';
+        } else {
+            $paginacao .= '<a href="?pagina='.$pagina['pagina'].'&busca='.$busca.'&status='.$filtroativo.'">
+                                <button>'.$pagina['pagina'].'</button>
+                            </a>';
+        }
     }
 ?>
-<main>
+<main class="wide">
 
                 <?= $mensagem ?>
 
-    <section>
+    <section class="actions">
+        <a href="index.php">
+            <button>Voltar</button>
+        </a>
         <a href="cadas.php">
-            <button class="btn btn-success">Cadastrar Usuário</button>
+            <button>Cadastrar Usuário</button>
         </a>
     </section>
 
     <section>
-       
+
         <form method="get">
-            <div class="row my-4"> 
-            
-                <div class="col">
-                    <label for="busca">Pesquisar:</label>
-                    <input type="text" name="busca" class="form-control" placeholder="Pesquisar por nome ou sobrenome" value="<?=$busca?>">
-                </div>
+            <label for="busca">Pesquisar:</label>
+            <input type="text" name="busca" placeholder="Pesquisar por nome ou sobrenome" value="<?=$busca?>">
 
-                <div class="col">
-                    <label for="ativo">Status:</label>
-                    
-                    <select name="status" class="form-control">
-                        <option value="">Todos</option>
-                        <option value="s" <?= isset($filtroativo) && $filtroativo === 's' ? 'selected' : '' ?>>Ativo</option>
-                        <option value="n" <?= isset($filtroativo) && $filtroativo === 'n' ? 'selected' : '' ?>>Inativo</option>
-                    
-                    </select>
-                </div>
+            <label for="ativo">Status:</label>
+            <select name="status">
+                <option value="">Todos</option>
+                <option value="s" <?= isset($filtroativo) && $filtroativo === 's' ? 'selected' : '' ?>>Ativo</option>
+                <option value="n" <?= isset($filtroativo) && $filtroativo === 'n' ? 'selected' : '' ?>>Inativo</option>
+            </select>
 
-                <div class="col d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary">Pesquisar</button>
-                </div>
-
-            </div>
-
-         </form>
+            <input type="submit" value="Pesquisar">
+        </form>
 
     </section>
 
     <section>
-         
-        <table class="table bg-light mt-3">
+
+        <div class="table-scroll">
+        <table>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -106,15 +100,16 @@
                     <th>Ações</th>
                 </tr>
             </thead>
-            
+
             <tbody>
                 <?= $resultados ?>
             </tbody>
 
-         </table>
+        </table>
+        </div>
 
     </section>
-    
+
     <section>
         <?= $paginacao ?>
     </section>

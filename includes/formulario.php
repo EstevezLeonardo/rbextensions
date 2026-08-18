@@ -1,59 +1,38 @@
 <main>
-        <section>
-            <a href="index.php">
-                <button class="btn btn-success">Voltar</button>
-            </a>
-        </section>
-        <h2 class="mt-3"><?= TITLE?></h2>
+    <section>
+        <a href="listar-usuarios.php">
+            <button>Voltar</button>
+        </a>
+    </section>
 
-    <form method="POST"> 
-        <div class="form-group">
-            <label for="nome">Nome:</label>
-            <input type="text" class="form-control"  name="nome" value="<?= $obVaga->nome ?? '' ?>" required>
-        </div>
-        <div class="form-group">
-            <label for="sobrenome">Sobrenome:</label>
-            <input type="text" class="form-control"  name="sobrenome" value="<?= $obVaga->sobrenome ?? '' ?>" required>
-        </div>
+    <h2><?= TITLE?></h2>
 
-        <div class="form-group">
-            <label>Status:</label>
+    <form method="POST">
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" id="nome" value="<?= $obVaga->nome ?? '' ?>" required>
 
-                <div class="form-check form-check-inline">
-                    <label class="form-control-label">
-                        <input class="form-check-input" type="radio" name="ativo" value="s" <?= (isset($obVaga->ativo) && $obVaga->ativo === 's') ? 'checked' : '' ?> required> Ativo
-                    </label>
-                </div>
-               
-                <div class="form-check form-check-inline">
-                    <label class="form-control-label">
-                        <input class="form-check-input" type="radio" name="ativo" value="n" <?= (isset($obVaga->ativo) && $obVaga->ativo === 'n') ? 'checked' : '' ?> required> Inativo
-                    </label>
-                </div>
-            </div>
-        </div>
-  
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control"  name="email" value="<?= $obVaga->email ?? '' ?>" required>
-        </div>
+        <label for="sobrenome">Sobrenome:</label>
+        <input type="text" name="sobrenome" id="sobrenome" value="<?= $obVaga->sobrenome ?? '' ?>" required>
 
-        <div class="form-group">
-            <label for="datanascimento">Data de Nascimento:</label>
-            <input type="datetime-local" class="form-control" name="datanascimento" value="<?= $obVaga->datanascimento ?? '' ?>" required>
-        </div>
+        <fieldset>
+            <legend>Status:</legend>
 
-        <div class="form-group">
-            <label for="senha">Senha:</label>
-            <input type="password" class="form-control"  name="senha" required>
-        </div>
+            <input type="radio" name="ativo" id="ativo_s" value="s" <?= (isset($obVaga->ativo) && $obVaga->ativo === 's') ? 'checked' : '' ?> required>
+            <label for="ativo_s">Ativo</label>
 
-        <div class="form-group mt-3">
-            <button type="submit" class="btn btn-success">Enviar</button>
-        </div>
+            <input type="radio" name="ativo" id="ativo_n" value="n" <?= (isset($obVaga->ativo) && $obVaga->ativo === 'n') ? 'checked' : '' ?> required>
+            <label for="ativo_n">Inativo</label>
+        </fieldset>
 
-        <div>
-            <div class="form-check form-check-inline">
-        </div>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" value="<?= $obVaga->email ?? '' ?>" required>
+
+        <label for="datanascimento">Data de Nascimento:</label>
+        <input type="datetime-local" name="datanascimento" id="datanascimento" value="<?= $obVaga->datanascimento ?? '' ?>" required>
+
+        <label for="senha">Senha:</label>
+        <input type="password" name="senha" id="senha" required>
+
+        <input type="submit" value="Enviar">
     </form>
 </main>

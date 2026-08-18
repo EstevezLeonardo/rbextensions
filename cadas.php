@@ -16,7 +16,7 @@ if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimen
     $obVaga->ativo = $_POST['ativo'];
     $obVaga->cadastrar();
 
-    header('location: index.php?status=success');
+    header('location: listar-usuarios.php?status=success');
     exit;
 }
 
