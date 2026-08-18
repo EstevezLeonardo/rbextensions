@@ -15,16 +15,17 @@ $ativo = isset($_GET['ativo']) ? htmlspecialchars(trim($_GET['ativo']), ENT_QUOT
 
 $filtroativo = in_array($status, ['s', 'n']) ? $status : (in_array($ativo, ['s', 'n']) ? $ativo : '');
 
-$condicao = !empty($busca) ? "nome LIKE '%{$busca}%' OR sobrenome LIKE '%{$busca}%'" : '';
+$condicoes = [];
 
-if ($filtroativo === 's') {
-    $condicao .= " AND ativo = 's'";
-} elseif ($filtroativo === 'n') {
-    $condicao .= " AND ativo = 'n'";
+if (!empty($busca)) {
+    $condicoes[] = "(nome LIKE '%{$busca}%' OR sobrenome LIKE '%{$busca}%')";
 }
-$condicao = array_filter(explode(' AND ', $condicao));
 
-$where = implode(' AND ', $condicao);
+if ($filtroativo === 's' || $filtroativo === 'n') {
+    $condicoes[] = "ativo = '{$filtroativo}'";
+}
+
+$where = implode(' AND ', $condicoes);
 
 $totalVagas = Vaga::getTotalVagas($where);
 
