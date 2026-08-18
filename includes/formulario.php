@@ -1,10 +1,5 @@
 <main>
-    <section>
-        <a href="listar-usuarios.php">
-            <button>Voltar</button>
-        </a>
-    </section>
-
+    
     <h2><?= TITLE?></h2>
 
     <form method="POST">
@@ -35,4 +30,10 @@
 
         <input type="submit" value="Enviar">
     </form>
+
+    <section>
+        <a href="index.php">
+            <button>Voltar</button>
+        </a>
+    </section>
 </main>

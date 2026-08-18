@@ -6,6 +6,8 @@ define('TITLE', 'Cadastrar Usuário');
 
 use App\Entity\Vaga;
 
+$obVaga = new Vaga();
+
 if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimento'])) {
     $obVaga = new Vaga();
     $obVaga->nome = $_POST['nome'];

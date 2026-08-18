@@ -4,6 +4,9 @@ require 'vendor/autoload.php';
 
 use App\Entity\Vaga;
 use App\Db\Pagination;
+use App\Session\Login;
+
+Login::requireLogout();
 
 define('TITLE', 'Usuários');
 

@@ -58,10 +58,6 @@
 
                 <?= $mensagem ?>
 
-    <section class="actions">
-        <a href="index.php">
-            <button>Voltar</button>
-        </a>
         <a href="cadas.php">
             <button>Cadastrar Usuário</button>
         </a>
@@ -109,8 +105,11 @@
         </div>
 
     </section>
-
-    <section>
+    <section class="actions">
+        <a href="index.php">
+            <button>Voltar</button>
+        </a>
+    
         <?= $paginacao ?>
     </section>
 

@@ -3,6 +3,9 @@
 require 'vendor/autoload.php';
 
 use App\Entity\Vaga;
+use App\Session\Login;
+
+Login::isLogged();
 
 if(!isset($_GET['id']) or !is_numeric($_GET['id'])) {
     header('location: listar-usuarios.php?status=error');

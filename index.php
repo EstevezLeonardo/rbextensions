@@ -8,9 +8,16 @@ include 'includes/footer.php';
 <main>
     <section>
         <h2>Bem-vindo</h2>
-        <p>Gerencie os usuários cadastrados no sistema.</p>
-        <a href="listar-usuarios.php">
-            <button>Ver Usuários</button>
+        <p>Faça login para acessar o sistema.</p>
+        <a href="login.php">
+            <button>Fazer Login</button>
+        </a>
+    </section>
+
+    <section>
+        <p>Cadastre-se para acessar o sistema.</p>
+        <a href="cadas.php">
+            <button>Cadastrar</button>
         </a>
     </section>
 </main>

@@ -5,6 +5,9 @@ require 'vendor/autoload.php';
 define('TITLE', 'Editar Usuário');
 
 use App\Entity\Vaga;
+use App\Session\Login;
+
+Login::isLogged();
 
 if(!isset($_GET['id']) or !is_numeric($_GET['id'])) {
     header('location: listar-usuarios.php?status=error');

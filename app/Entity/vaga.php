@@ -17,8 +17,9 @@ class Vaga{
     
     public function cadastrar(){
     $this->datanascimento = $_POST['datanascimento'];
-    $this->senha = $_POST['senha'];
     $this->ativo = $_POST['ativo'] === 's' ? 's' : 'n';
+    
+    $this->senha = $_POST['senha'];
     $senhahash = password_hash($this->senha, PASSWORD_DEFAULT);
     $this->senha = $senhahash;
 
