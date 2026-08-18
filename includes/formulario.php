@@ -23,7 +23,7 @@
         <input type="email" name="email" id="email" value="<?= $obVaga->email ?? '' ?>" required>
 
         <label for="datanascimento">Data de Nascimento:</label>
-        <input type="datetime-local" name="datanascimento" id="datanascimento" value="<?= $obVaga->datanascimento ?? '' ?>" required>
+        <input type="date" name="datanascimento" id="datanascimento" value="<?= $obVaga->datanascimento ?? '' ?>" required>
 
         <label for="senha">Senha:</label>
         <input type="password" name="senha" id="senha" required>

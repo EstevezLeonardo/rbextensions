@@ -43,14 +43,18 @@
     $resultados = strlen($resultados) ? $resultados : '<tr><td colspan="6">Nenhum registro encontrado.</td></tr>';
 
     $paginacao = '';
-    $paginas = $obPagination->getPages();
-    foreach($paginas as $key=>$pagina) {
-        if ($pagina['atual']) {
-            $paginacao .= '<button disabled>'.$pagina['pagina'].'</button>';
-        } else {
-            $paginacao .= '<a href="?pagina='.$pagina['pagina'].'&busca='.$busca.'&status='.$filtroativo.'">
-                                <button>'.$pagina['pagina'].'</button>
-                            </a>';
+    $paginas = [];
+
+    if (isset($obPagination) && is_object($obPagination) && method_exists($obPagination, 'getPages')) {
+        $paginas = $obPagination->getPages();
+        foreach ($paginas as $key => $pagina) {
+            if ($pagina['atual']) {
+                $paginacao .= '<button disabled>'.$pagina['pagina'].'</button>';
+            } else {
+                $paginacao .= '<a href="?pagina='.$pagina['pagina'].'&busca='.$busca.'&status='.$filtroativo.'">
+                                    <button>'.$pagina['pagina'].'</button>
+                                </a>';
+            }
         }
     }
 ?>

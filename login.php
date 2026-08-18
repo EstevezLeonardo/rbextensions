@@ -2,14 +2,14 @@
 
 require 'vendor/autoload.php';
 
-use App\Entity\Vaga;
+
 use App\Session\Login;
 
 
 
 Login::requireLogout();
 
-if(isset($_POST['acao']) && $_POST['acao'] === 'logar') {
+if(isset($_POST['acao']) && $_POST['acao'] === 'Fazer Login') {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 

@@ -10,7 +10,7 @@ include 'includes/footer.php';
         <h2>Bem-vindo</h2>
         <p>Faça login para acessar o sistema.</p>
         <a href="login.php">
-            <button>Fazer Login</button>
+            <button>Acessar a Conta</button>
         </a>
     </section>
 

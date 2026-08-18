@@ -12,7 +12,7 @@
         <label for="senha">Senha:</label>
         <input type="password" name="senha" id="senha" required>
 
-        <input type="submit" name="acao" value="logar">
+        <input type="submit" name="acao" value="Fazer Login">
 
         <p>Não possui uma conta? <a href="cadas.php">Cadastre-se</a></p>
     </form>
