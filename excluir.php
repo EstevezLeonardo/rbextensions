@@ -27,5 +27,5 @@ if(isset($_POST['excluir'])) {
 }
 
 include 'includes/header.php';
-include 'includes/footer.php';
 include 'includes/confirmar-exclusao.php';
+include 'includes/footer.php';

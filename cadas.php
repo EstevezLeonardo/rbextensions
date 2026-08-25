@@ -23,5 +23,5 @@ if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimen
 }
 
 include 'includes/header.php';
-include 'includes/footer.php';
 include 'includes/formulario.php';
+include 'includes/footer.php';

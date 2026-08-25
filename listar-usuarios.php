@@ -38,5 +38,5 @@ $obPagination = new Pagination($totalVagas, $_GET['pagina'] ?? 1, 5);
 $vagas = Vaga::getVagas($where,null, $obPagination->getLimit());
 
 include 'includes/header.php';
-include 'includes/footer.php';
 include 'includes/listagem.php';
+include 'includes/footer.php';

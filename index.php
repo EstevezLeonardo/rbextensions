@@ -3,7 +3,6 @@
 require 'vendor/autoload.php';
 
 include 'includes/header.php';
-include 'includes/footer.php';
 ?>
 <main>
     <section>
@@ -21,3 +20,5 @@ include 'includes/footer.php';
         </a>
     </section>
 </main>
+<?php
+include 'includes/footer.php';

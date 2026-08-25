@@ -31,5 +31,5 @@ if(isset($_POST['acao']) && $_POST['acao'] === 'Fazer Login') {
 
 
 include 'includes/header.php';
+include 'includes/formulario-login.php';
 include 'includes/footer.php';
-include 'includes/formulario-login.php'; 

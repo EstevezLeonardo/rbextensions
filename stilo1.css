@@ -1,15 +1,24 @@
 @charset "UTF-8";
 
+/* ==========================================================================
+   RB Extensions — Folha de estilos principal
+   Tema: dourado/marrom sobre fundo escuro, inspirado no dashboardrb.
+   ========================================================================== */
+
+/* Reset básico: fonte padrão do site e box-sizing previsível em todos os elementos */
 * {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Roboto', Verdana, Geneva, Tahoma, sans-serif;
     box-sizing: border-box;
 }
 
 /* ELEMENTOS DA INTERFACE */
 
+/* Fundo em gradiente fixo e layout em coluna centralizada (header, main, footer) */
 body {
-    background-color: #17414e;
-    background-image: linear-gradient(180deg, #2665ad, #74858f);
+    min-height: 100vh; /* garante altura mínima da tela para o footer "grudar" embaixo */
+    margin: 0;
+    background-color: #353319;
+    background-image: linear-gradient(180deg, #49442c, #9c7905a4);
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -18,15 +27,17 @@ body {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* centraliza o bloco header/main verticalmente quando sobra espaço */
+    align-items: center;     /* centraliza header/main/footer horizontalmente */
 }
 
+/* Largura padrão dos blocos de conteúdo (cards) */
 header, main, section, article {
-    max-width: 700px;
+    max-width: 400px;
     width: 100%;
 }
 
+/* Variante de largura maior, usada em páginas com tabelas (ex.: listagem de usuários) */
 main.wide {
     max-width: 1100px;
 }
@@ -35,28 +46,57 @@ main.wide > section {
     max-width: none;
 }
 
-header > h1 {
-    color: white;
-    text-shadow: 3px 3px 0px black;
+/* Logo fixa no canto superior esquerdo da página, independente do scroll */
+header > .logo {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 10; /* garante que a logo fique acima do conteúdo abaixo dela */
 }
 
+header > .logo img {
+    width: 170px;
+    height: auto; /* mantém a proporção original da imagem (evita distorcer a logo) */
+    display: block;
+}
+
+/* Título principal do site (h1), com fonte decorativa e efeito de "ouro metálico" */
+header > h1 {
+    font-family: 'Bona Nova SC', 'Roboto', Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 2.2em;
+    text-align: center;
+    color: #ffd700; /* cor de fallback para navegadores sem suporte a background-clip: text */
+
+    /* Gradiente diagonal escuro -> dourado -> quase-branco -> dourado -> escuro,
+       recortado no formato do texto para simular um reflexo de luz no ouro */
+    background: linear-gradient(135deg, #b8860b 0%, #ffd700 25%, #f7f5eed5 50%, #ffd700 75%, #b8870b9f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    text-shadow: 3px 3px 0px rgba(255, 253, 253, 0.253);
+}
+
+/* Cartões de conteúdo (fundo escuro translúcido, texto claro, sombra suave) */
 main, section, article {
-    background-color: white;
+    background-color: rgba(7, 2, 2, 0.993);
+    color: #dad5d5;
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.502);
-    overflow-x: auto;
+    box-shadow: 0px 0px 10px rgba(124, 122, 122, 0.502);
+    overflow-x: auto; /* evita que tabelas largas quebrem o layout em telas pequenas */
 }
 
+/* Rodapé fixado na base da página (ver margin-top: auto) */
 footer {
     display: block;
     width: 100vw;
-    background-color:#2665ad ;
-    color: white;
+    background-color: #3533194f;
+    color: #ce8a0d85;
     text-align: center;
-    margin-top: auto;
-    padding: 5px;
+    margin-top: auto; /* empurra o footer para o fim do container flex (body) */
+    padding: 1px;
 }
 
 p {
@@ -64,25 +104,28 @@ p {
     line-height: 1.5em;
 }
 
+/* Subtítulos em dourado, para destacar dentro dos cards */
 h2, h3, h4 {
-    color: #2665ad;
+    color: #a37407;
     margin: 0 0 10px 0;
 }
 
+/* Links estilizados como "tags" com fundo sutil e sublinhado pontilhado */
 a {
-    color: #15142b;
-    background-color: rgba(55, 41, 145, 0.1);
+    color: #5f4404;
+    background-color: rgba(163, 116, 7, 0.1);
     padding: 0 3px;
     font-weight: 600;
     text-decoration: none;
-    border-bottom: .5px dotted #372991;
+    border-bottom: .5px dotted #a37407;
 }
 
 a:hover {
-    color: #2665ad;
-    border-bottom: 1px solid #2665ad;
+    color: #a37407;
+    border-bottom: 1px solid #a37407;
 }
 
+/* Quando o link envolve um botão, remove o estilo de "tag" para não duplicar visual */
 a:has(button) {
     background-color: transparent;
     padding: 0;
@@ -95,6 +138,7 @@ a:has(button):hover {
 
 /* TABELAS E LISTAS */
 
+/* Permite rolagem horizontal em tabelas largas sem quebrar o layout da página */
 .table-scroll {
     width: 100%;
     overflow-x: auto;
@@ -104,7 +148,7 @@ table {
     min-width: 400px;
     width: 100%;
     border-spacing: 0px;
-    border: 0.5px solid #2665ad;
+    border: 0.5px solid #a37407;
     margin: 10px auto;
 }
 
@@ -114,7 +158,7 @@ table {
 }
 
 table th {
-    background-color: #2665ad;
+    background-color: #a37407;
     color: white;
     padding: 5px;
     text-align: left;
@@ -125,13 +169,15 @@ table td {
 }
 
 table tr {
-    background-color: rgba(55, 41, 145, 0.05);
+    background-color: rgba(163, 116, 7, 0.05);
 }
 
+/* Efeito "zebrado" nas linhas ímpares para facilitar a leitura */
 table tr:nth-child(odd) {
-    background-color: rgba(55, 41, 145, 0.3);
+    background-color: rgba(163, 116, 7, 0.25);
 }
 
+/* Tabela usada na tela de confirmação de exclusão (layout de comparação lado a lado) */
 table.divisao {
     border: 1px solid white;
 }
@@ -157,29 +203,32 @@ table.divisao tr:nth-child(2) td:nth-child(1) {
 }
 
 ul > li::marker {
-    color: #2665ad;
+    color: #a37407;
 }
 
 /* ELEMENTOS DE FORMULÁRIO */
 
+/* Caixa de fundo dourado translúcido ao redor dos formulários */
 form {
-    background-color: rgba(12, 87, 173, 0.253);
+    background-color: rgba(163, 116, 7, 0.25);
     padding: 15px;
     border-radius: 10px;
 }
 
+/* Rótulos em "etiqueta" pequena acima de cada campo */
 form label {
     display: block;
     width: fit-content;
     font-size: 0.8em;
     font-weight: 100;
-    background-color: rgba(12, 87, 173, 0.253);
+    background-color: rgba(163, 116, 7, 0.25);
     padding: 3px 7px;
     margin-top: 10px;
     margin-bottom: 0px;
     border-radius: 5px;
 }
 
+/* Campos de texto/seleção padronizados (largura total, borda cinza, cantos arredondados) */
 input[type=text], [type=number], select, input[type=date], input[type=date], input[type=datetime], input[type=email], input[type=month], input[type=password], input[type=range], input[type=tel], input[type=time], input[type=week] {
     width: 100%;
     padding: 12px 20px;
@@ -190,10 +239,11 @@ input[type=text], [type=number], select, input[type=date], input[type=date], inp
     border-radius: 4px;
     box-sizing: border-box;
 }
-  
+
+/* Botão de enviar formulário (tom mais neutro, clareia no hover) */
 input[type=submit] {
     width: 100%;
-    background-color: #455e7a;
+    background-color: #8b6f33;
     font-size: 1em;
     color: white;
     padding: 10px 20px;
@@ -202,14 +252,15 @@ input[type=submit] {
     border-radius: 4px;
     cursor: pointer;
 }
-  
+
 input[type=submit]:hover {
-    background-color: #2665ad;
+    background-color: #a37407;
 }
 
+/* Botão de limpar/resetar formulário (tom laranja para se diferenciar dos demais) */
 input[type=reset] {
     width: 100%;
-    background-color: #eb9903;
+    background-color: #c27013;
     font-size: 1em;
     color: white;
     padding: 10px 20px;
@@ -220,12 +271,13 @@ input[type=reset] {
 }
 
 input[type=reset]:hover {
-    background-color: #c27013;
+    background-color: #8b4f0a;
 }
 
+/* Botões de ação genéricos (dourado principal, escurece no hover) */
 input[type=button], button {
     width: 100%;
-    background-color: #2665ad;
+    background-color: #a37407;
     font-size: 1em;
     color: white;
     padding: 10px 20px;
@@ -236,9 +288,10 @@ input[type=button], button {
 }
 
 input[type=button]:hover, button:hover {
-    background-color: #291f6c;
+    background-color: #5f4404;
 }
 
+/* Grupo de botões lado a lado (ex.: ações da listagem de usuários) */
 .actions {
     display: flex;
     flex-wrap: wrap;
@@ -246,9 +299,10 @@ input[type=button]:hover, button:hover {
 }
 
 .actions button {
-    width: auto;
+    width: auto; /* evita que os botões ocupem 100% da largura dentro do grupo */
 }
 
+/* Botões menores dentro de células de tabela (ex.: editar/excluir por linha) */
 table td button {
     width: auto;
     padding: 5px 10px;
@@ -257,13 +311,13 @@ table td button {
 }
 
 fieldset {
-    border: 0.5px dotted #2665ad;
+    border: 0.5px dotted #a37407;
 }
 
 fieldset > legend {
     font-size: 0.8em;
     font-weight: 100;
-    background-color: rgba(55, 41, 145, 0.2);
+    background-color: rgba(163, 116, 7, 0.2);
     padding: 3px 7px;
     border-radius: 5px;
 }
@@ -271,5 +325,5 @@ fieldset > legend {
 input[type=radio] + label, input[type=checkbox] + label {
     display: inline-block;
     font-size: 1em;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: #00000000;
 }
