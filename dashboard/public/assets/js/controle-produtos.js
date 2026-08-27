@@ -7,11 +7,15 @@
  *     quanto pra EDITAR um produto (o campo escondido #produto-id
  *     decide qual endpoint chamar: produtos-criar.php ou
  *     produtos-editar.php);
- *   - a caixa "Buscar Produtos", que recarrega a lista de resultados
- *     (dashboard/produtos-listar.php) com os filtros atuais;
- *   - a lista de resultados (#lista-produtos), com os botões "Editar"
+ *   - a caixa "Buscar Produtos" (texto, status e categoria), que
+ *     recarrega a lista de resultados a partir da página 1;
+ *   - a lista de resultados (#lista-produtos), paginada em 10 por
+ *     página (dashboard/produtos-listar.php), com os botões "Editar"
  *     (carrega o produto no formulário acima) e "Excluir" (dois
- *     cliques: o primeiro pede confirmação, o segundo apaga de fato).
+ *     cliques: o primeiro pede confirmação, o segundo apaga de fato);
+ *   - os botões de página (#paginacao-produtos): editar/excluir
+ *     recarregam a MESMA página em que a pessoa está; já criar um
+ *     produto ou mudar a busca volta pra página 1.
  *
  * Compilado por `tsc` (ver tsconfig.json na raiz do projeto) para
  * dashboard/public/assets/js/controle-produtos.js.
@@ -25,21 +29,32 @@
     document.addEventListener('DOMContentLoaded', function () {
         const buscaTextoEl = document.getElementById('busca-produto-texto');
         const buscaStatusEl = document.getElementById('busca-produto-status');
-        const recarregarLista = function () {
-            carregarListaDeProdutos(buscaTextoEl, buscaStatusEl, recarregarLista);
+        const buscaCategoriaEl = document.getElementById('busca-produto-categoria');
+        let paginaAtual = 1;
+        const carregarPagina = function (pagina) {
+            paginaAtual = pagina;
+            carregarListaDeProdutos(buscaTextoEl, buscaStatusEl, buscaCategoriaEl, pagina, carregarPagina, recarregarPaginaAtual);
         };
-        ligarFormularioDeProduto(recarregarLista);
-        ligarBuscaDeProdutos(recarregarLista);
-        recarregarLista();
+        // recarrega a mesma página em que a pessoa está (usado depois de editar/excluir um item)
+        const recarregarPaginaAtual = function () {
+            carregarPagina(paginaAtual);
+        };
+        // começa a busca do zero, na página 1 (usado ao mudar filtros ou criar um produto)
+        const buscarDoInicio = function () {
+            carregarPagina(1);
+        };
+        ligarFormularioDeProduto(recarregarPaginaAtual, buscarDoInicio);
+        ligarBuscaDeProdutos(buscarDoInicio);
+        buscarDoInicio();
     });
     /**
      * Liga o envio do formulário "Adicionar/Editar Produto". Em modo
-     * "criar" (#produto-id vazio) manda pra produtos-criar.php; em modo
-     * "editar" (#produto-id preenchido, definido por preencherParaEdicao)
-     * manda pra produtos-editar.php. Em ambos os casos, ao terminar com
-     * sucesso volta pro modo "criar" e recarrega a lista.
+     * "criar" (#produto-id vazio) manda pra produtos-criar.php e, ao
+     * terminar, chama `aoCriar` (volta pra página 1); em modo "editar"
+     * (#produto-id preenchido, definido por preencherParaEdicao) manda
+     * pra produtos-editar.php e chama `aoEditar` (fica na mesma página).
      */
-    function ligarFormularioDeProduto(recarregarLista) {
+    function ligarFormularioDeProduto(aoEditar, aoCriar) {
         const form = document.getElementById('form-produto');
         const mensagemEl = document.getElementById('produto-mensagem');
         const tituloFormEl = document.getElementById('produto-form-titulo');
@@ -117,7 +132,12 @@
                 const mensagemSucesso = emEdicao ? 'Produto atualizado!' : 'Produto adicionado!';
                 voltarParaModoCriacao();
                 mostrarMensagem(mensagemSucesso, 'sucesso');
-                recarregarLista();
+                if (emEdicao) {
+                    aoEditar();
+                }
+                else {
+                    aoCriar();
+                }
             })
                 .catch(function (erro) {
                 mostrarMensagem(erro.message, 'erro');
@@ -129,36 +149,40 @@
     }
     /**
      * Liga a caixa "Buscar Produtos": clicar em "Buscar" (ou apertar
-     * Enter no campo de texto, ou trocar o status) recarrega a lista de
-     * resultados, que já manda os filtros atuais junto.
+     * Enter no campo de texto, ou trocar o status/categoria) volta a
+     * lista de resultados pra página 1, já com os filtros atuais.
      */
-    function ligarBuscaDeProdutos(recarregarLista) {
+    function ligarBuscaDeProdutos(buscarDoInicio) {
         const botaoBuscar = document.getElementById('botao-buscar-produtos');
         const textoEl = document.getElementById('busca-produto-texto');
         const statusEl = document.getElementById('busca-produto-status');
+        const categoriaEl = document.getElementById('busca-produto-categoria');
         if (!botaoBuscar) {
             return;
         }
-        botaoBuscar.addEventListener('click', recarregarLista);
+        botaoBuscar.addEventListener('click', buscarDoInicio);
         if (textoEl) {
             textoEl.addEventListener('keydown', function (evento) {
                 if (evento.key === 'Enter') {
                     evento.preventDefault();
-                    recarregarLista();
+                    buscarDoInicio();
                 }
             });
         }
-        // trocar o status já dispara a busca sozinho, sem precisar clicar em "Buscar"
+        // trocar status/categoria já dispara a busca sozinho, sem precisar clicar em "Buscar"
         if (statusEl) {
-            statusEl.addEventListener('change', recarregarLista);
+            statusEl.addEventListener('change', buscarDoInicio);
+        }
+        if (categoriaEl) {
+            categoriaEl.addEventListener('change', buscarDoInicio);
         }
     }
     /**
-     * Busca os produtos em dashboard/produtos-listar.php (com os filtros
-     * atuais) e desenha a lista numerada #lista-produtos, um <li> por
-     * produto, com os botões Editar/Excluir.
+     * Busca a página de produtos em dashboard/produtos-listar.php (com os
+     * filtros e a página atuais) e desenha a lista numerada
+     * #lista-produtos, mais os botões de página em #paginacao-produtos.
      */
-    function carregarListaDeProdutos(buscaTextoEl, buscaStatusEl, recarregarLista) {
+    function carregarListaDeProdutos(buscaTextoEl, buscaStatusEl, buscaCategoriaEl, pagina, irParaPagina, recarregarPaginaAtual) {
         const listaEl = document.getElementById('lista-produtos');
         const mensagemEl = document.getElementById('lista-produtos-mensagem');
         if (!listaEl) {
@@ -167,13 +191,16 @@
         const parametros = new URLSearchParams({
             busca: buscaTextoEl ? buscaTextoEl.value : '',
             status: buscaStatusEl ? buscaStatusEl.value : '',
+            categoria: buscaCategoriaEl ? buscaCategoriaEl.value : '',
+            pagina: String(pagina),
         });
         fetch('produtos-listar.php?' + parametros.toString())
             .then(function (resposta) {
             return resposta.json();
         })
-            .then(function (produtos) {
-            desenharListaDeProdutos(produtos, listaEl, mensagemEl, recarregarLista);
+            .then(function (dados) {
+            desenharListaDeProdutos(dados.produtos, listaEl, mensagemEl, recarregarPaginaAtual);
+            desenharPaginacao(dados.paginaAtual, dados.totalPaginas, irParaPagina);
         })
             .catch(function () {
             if (mensagemEl) {
@@ -187,7 +214,7 @@
      * textContent (nunca innerHTML) pros textos do produto, pra um nome/
      * descrição com caracteres de HTML não virar código na página.
      */
-    function desenharListaDeProdutos(produtos, listaEl, mensagemEl, recarregarLista) {
+    function desenharListaDeProdutos(produtos, listaEl, mensagemEl, recarregarPaginaAtual) {
         listaEl.innerHTML = '';
         if (mensagemEl) {
             mensagemEl.textContent = produtos.length === 0 ? 'Nenhum produto encontrado.' : '';
@@ -220,7 +247,7 @@
             botaoExcluir.type = 'button';
             botaoExcluir.className = 'btn-excluir';
             botaoExcluir.textContent = 'Excluir';
-            ligarBotaoExcluir(botaoExcluir, produto, recarregarLista);
+            ligarBotaoExcluir(botaoExcluir, produto, recarregarPaginaAtual);
             acoes.appendChild(botaoEditar);
             acoes.appendChild(botaoExcluir);
             item.appendChild(info);
@@ -229,12 +256,37 @@
         });
     }
     /**
+     * Desenha os botões de página em #paginacao-produtos (um por página;
+     * a página atual fica desabilitada). Não mostra nada quando só existe
+     * uma página.
+     */
+    function desenharPaginacao(paginaAtual, totalPaginas, irParaPagina) {
+        const container = document.getElementById('paginacao-produtos');
+        if (!container) {
+            return;
+        }
+        container.innerHTML = '';
+        if (totalPaginas <= 1) {
+            return;
+        }
+        for (let pagina = 1; pagina <= totalPaginas; pagina++) {
+            const botao = document.createElement('button');
+            botao.type = 'button';
+            botao.textContent = String(pagina);
+            botao.disabled = pagina === paginaAtual;
+            botao.addEventListener('click', function () {
+                irParaPagina(pagina);
+            });
+            container.appendChild(botao);
+        }
+    }
+    /**
      * Liga o botão "Excluir" de um item: o primeiro clique só marca
      * "confirmando" (troca o texto/cor, pra evitar excluir sem querer);
      * o segundo clique, dentro de 4 segundos, chama produtos-excluir.php
-     * de verdade e recarrega a lista.
+     * de verdade e recarrega a página atual da lista.
      */
-    function ligarBotaoExcluir(botao, produto, recarregarLista) {
+    function ligarBotaoExcluir(botao, produto, recarregarPaginaAtual) {
         let confirmando = false;
         let timeoutId;
         botao.addEventListener('click', function () {
@@ -267,7 +319,7 @@
                 });
             })
                 .then(function () {
-                recarregarLista();
+                recarregarPaginaAtual();
             })
                 .catch(function (erro) {
                 botao.disabled = false;

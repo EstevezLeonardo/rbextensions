@@ -15,10 +15,12 @@
 require __DIR__.'/../vendor/autoload.php';
 
 use App\Session\Login;
+use App\Entity\Produto;
 
 Login::requireLogin();
 
 $usuarioLogado = Login::getUsuario();
+$categorias = Produto::getCategorias();
 
 ?>
 <!DOCTYPE html>
@@ -97,6 +99,7 @@ $usuarioLogado = Login::getUsuario();
                     <h3>Resultados da Busca</h3>
                     <p id="lista-produtos-mensagem" class="evento-mensagem"></p>
                     <ol id="lista-produtos" class="lista-eventos"></ol>
+                    <div id="paginacao-produtos" class="paginacao"></div>
                 </div>
             </div>
 
@@ -169,6 +172,17 @@ $usuarioLogado = Login::getUsuario();
                             <option value="">Todos</option>
                             <option value="s">Ativo</option>
                             <option value="n">Inativo</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="busca-produto-categoria">Categoria</label>
+                        <select id="busca-produto-categoria">
+                            <option value="">Todas</option>
+                            <?php foreach ($categorias as $categoria): ?>
+                                <option value="<?= htmlspecialchars($categoria, ENT_QUOTES, 'UTF-8') ?>">
+                                    <?= htmlspecialchars($categoria, ENT_QUOTES, 'UTF-8') ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <button type="button" id="botao-buscar-produtos">Buscar</button>

@@ -23,12 +23,38 @@ class Produto{
      * Busca produtos, ordenados por nome. $where deve usar
      * placeholders `?` (ex: 'Nome LIKE ?'), com os valores em
      * $params — mesma regra de Vaga::getVagas()/Evento::getEventos().
+     * $limit é o trecho "offset, limit" de Pagination::getLimit().
      *
      * @return Produto[]
      */
-    public static function getProdutos($where = null, $params = []){
-        return (new Database('produtos'))->select($where, 'Nome ASC', null, '*', $params)
+    public static function getProdutos($where = null, $params = [], $limit = null){
+        return (new Database('produtos'))->select($where, 'Nome ASC', $limit, '*', $params)
                                           ->fetchAll(PDO::FETCH_CLASS, self::class);
+    }
+
+    /**
+     * Conta quantos produtos casam com $where (mesma regra de
+     * placeholders/params de getProdutos). Usado para calcular a
+     * paginação.
+     */
+    public static function getTotalProdutos($where = null, $params = []){
+        return (new Database('produtos'))->select($where, null, null, 'COUNT(*) as total', $params)
+                                          ->fetchObject()->total;
+    }
+
+    /**
+     * Lista as categorias distintas já usadas em produtos cadastrados
+     * (em ordem alfabética), pra popular o filtro "Buscar Produtos".
+     *
+     * @return string[]
+     */
+    public static function getCategorias(){
+        return (new Database('produtos'))->select(
+                "Categoria IS NOT NULL AND Categoria != ''",
+                'Categoria ASC',
+                null,
+                'DISTINCT Categoria'
+            )->fetchAll(PDO::FETCH_COLUMN);
     }
 
     /**

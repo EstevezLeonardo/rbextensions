@@ -45,6 +45,16 @@ class Pagination{
 
     }
 
+    /** Página atualmente selecionada (já "travada" no máximo válido). */
+    public function getCurrentPage(){
+        return $this->currentPage;
+    }
+
+    /** Total de páginas. */
+    public function getTotalPages(){
+        return (int) $this->pages;
+    }
+
     /**
      * Monta o trecho "offset, limit" pronto para uso em `LIMIT` do SQL,
      * baseado na página atual.
