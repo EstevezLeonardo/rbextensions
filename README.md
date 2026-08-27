@@ -68,40 +68,7 @@ rbextensions/
    DB_USER=root
    DB_PASS=
    ```
-5. Crie o banco `rbextensions` e as tabelas:
-   ```sql
-   CREATE TABLE rbextensionst (
-       id INT NOT NULL AUTO_INCREMENT,
-       nome VARCHAR(100),
-       sobrenome VARCHAR(50),
-       datanascimento TIMESTAMP NULL,
-       ativo ENUM('s','n'),
-       email VARCHAR(100),
-       senha VARCHAR(255),
-       PRIMARY KEY (id)
-   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-   CREATE TABLE eventos (
-       id INT NOT NULL AUTO_INCREMENT,
-       Titulo VARCHAR(255) NOT NULL,
-       Inicio DATETIME NOT NULL,
-       Fim DATETIME NOT NULL,
-       PRIMARY KEY (id)
-   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-   CREATE TABLE produtos (
-       id INT AUTO_INCREMENT PRIMARY KEY,
-       Codigo VARCHAR(50) NOT NULL UNIQUE,
-       Nome VARCHAR(255) NOT NULL,
-       Descricao TEXT NULL,
-       Categoria VARCHAR(100) NULL,
-       Preco DECIMAL(10,2) NOT NULL,
-       Quantidade INT NOT NULL DEFAULT 0,
-       Ativo CHAR(1) NOT NULL DEFAULT 's'
-   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-   ```
-6. Inicie o Apache e o MySQL no painel do XAMPP.
-7. Acesse `http://localhost/rbextensions/` — a raiz redireciona para a tela inicial (`usuarios/index.php`), de onde dá pra cadastrar uma conta e logar.
 
 ## Desenvolvimento
 
