@@ -1,0 +1,15 @@
+{
+  "name": "rbextensions",
+  "private": true,
+  "description": "Ferramentas de build do front-end (TypeScript da agenda do dashboard)",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15"
+  }
+}

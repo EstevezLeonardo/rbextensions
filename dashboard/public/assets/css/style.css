@@ -273,8 +273,174 @@ align-items: center;
 .cards .cards-header .cards-type .ticket{
     font-size: 0.8;
     padding: 4px;
-    color: #5f4404;   
+    color: #5f4404;
     font-weight: 500;
+}
+
+/* caixas de formulário da agenda (Adicionar/Editar Evento, Buscar
+   Eventos, Resultados da Busca) */
+.event-form-card{
+    width: 320px;
+    background-color: #af8a3450;
+    border-radius: 10px;
+    margin: 40px !important;
+    padding: 1.2rem 1.5rem !important;
+}
+.event-form-card h3{
+    color: #a37407ea;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem !important;
+}
+.event-form-card .evento-mensagem{
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.8rem !important;
+}
+.event-form-card .evento-mensagem:empty{
+    display: none;
+}
+.event-form-card .evento-mensagem.erro{
+    color: #7a1f1f;
+}
+.event-form-card .evento-mensagem.sucesso{
+    color: #245c2e;
+}
+.event-form-card .campo{
+    display: block;
+    margin-bottom: 1rem !important;
+}
+.event-form-card label{
+    display: block;
+    color: #5f4404;
+    font-weight: 500;
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem !important;
+}
+.event-form-card input,
+.event-form-card select{
+    width: 100%;
+    height: 40px;
+    padding: 0 10px !important;
+    border-radius: 4px !important;
+    border: 1px solid #a37407ea !important;
+    background: none !important;
+    color: #5f4404;
+}
+.event-form-card button{
+    margin-top: 0.5rem !important;
+    margin-right: 0.5rem !important;
+    background-color: #a37407ea;
+    color: #fff;
+    border: none;
+    border-radius: 4px !important;
+    padding: 0.6rem 1.2rem !important;
+    font-weight: 600;
+    cursor: pointer;
+}
+/* botão "Cancelar" do modo de edição: mesmo formato, cor neutra */
+.event-form-card #botao-cancelar-edicao{
+    background-color: transparent;
+    border: 1px solid #a37407ea !important;
+    color: #5f4404;
+}
+.escondido{
+    display: none !important;
+}
+
+/* "Resultados da Busca" ocupa a largura toda (é uma lista, não um
+   formulário estreito) */
+.event-list-card{
+    width: 100%;
+}
+.lista-eventos{
+    list-style: decimal;
+    padding-left: 1.4rem !important;
+}
+.lista-eventos .evento-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding: 0.7rem 0 !important;
+    border-bottom: 1px solid #a3740755;
+}
+.lista-eventos .evento-item:last-child{
+    border-bottom: none;
+}
+.lista-eventos .evento-item-info strong{
+    display: block;
+    color: #5f4404;
+}
+.lista-eventos .evento-item-info span{
+    font-size: 0.8rem;
+    color: #7a5c10;
+}
+.lista-eventos .evento-item-acoes button{
+    margin-left: 0.5rem !important;
+    padding: 0.4rem 0.8rem !important;
+    border-radius: 4px !important;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+.lista-eventos .btn-editar{
+    background-color: #a37407ea;
+    color: #fff;
+}
+.lista-eventos .btn-excluir{
+    background-color: #7a1f1f;
+    color: #fff;
+}
+/* estado intermediário do "Excluir": primeiro clique pede confirmação
+   (fica mais escuro), segundo clique exclui de verdade */
+.lista-eventos .btn-excluir.confirmando{
+    background-color: #4a0f0f;
+}
+
+/* CALENDÁRIO (agenda) */
+.calendar-wrapper{
+    width: 80%;
+    margin: 40px !important;
+    padding: 1rem !important;
+    background-color: #af8a3450;
+    border-radius: 10px;
+
+    /* variáveis do FullCalendar: https://fullcalendar.io/docs/css-customization */
+    --fc-border-color: #a3740755;
+    --fc-page-bg-color: transparent;
+    --fc-neutral-bg-color: #af8a3430;
+    --fc-list-event-hover-bg-color: #af8a3440;
+    --fc-today-bg-color: #af8a3450;
+
+    --fc-button-text-color: #fff;
+    --fc-button-bg-color: #a37407ea;
+    --fc-button-border-color: #a37407ea;
+    --fc-button-hover-bg-color: #8b6006;
+    --fc-button-hover-border-color: #8b6006;
+    --fc-button-active-bg-color: #5f4404;
+    --fc-button-active-border-color: #5f4404;
+
+    --fc-event-bg-color: #a37407ea;
+    --fc-event-border-color: #a37407ea;
+    --fc-event-text-color: #fff;
+}
+/* sobrescreve a cor de link padrão (azul) dos números/textos internos do FullCalendar */
+.calendar-wrapper .fc,
+.calendar-wrapper .fc a{
+    color: #5f4404;
+}
+.calendar-wrapper .fc-col-header-cell-cushion{
+    color: #a37407ea;
+    text-decoration: none;
+}
+.calendar-wrapper .fc-toolbar-title{
+    color: #5f4404;
+}
+/* locale pt-br vem com o mês em minúsculo ("agosto de 2026"); maiúscula só na primeira letra, sem afetar o "de" */
+.calendar-wrapper .fc-toolbar-title::first-letter{
+    text-transform: uppercase;
 }
 
 /*charts js*/

@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Dashboard (painel principal pós-login). Exige login, verificado
+ * via a mesma camada de sessão do restante do projeto (require
+ * relativo ao vendor/autoload.php do próprio rbextensions).
+ *
+ * Os números dos cards e a linha da tabela abaixo ainda são
+ * mockados/estáticos (não vêm do banco) — layout inicial do painel,
+ * a ser ligado a dados reais depois.
+ */
+
 require __DIR__.'/../vendor/autoload.php';
 
 use App\Session\Login;
@@ -37,8 +47,8 @@ Login::requireLogin();
                 </form>
                 
                     <ul>
-                        <li><a href="" class="actives"><span><i class="fa-solid fa-home"></i></span>Home</a></li>
-                        <li><a href=""><span><i class="fa-solid fa-calendar-alt"></i></span>Agenda</a></li>
+                        <li><a href="index.php" class="actives"><span><i class="fa-solid fa-home"></i></span>Home</a></li>
+                        <li><a href="agenda.php"><span><i class="fa-solid fa-calendar-alt"></i></span>Agenda</a></li>
                         <li><a href=""><span><i class="fa-solid fa-server"></i></span>Perfil</a></li>
                         <li><a href=""><span><i class="fa-solid fa-box"></i></span>Produtos</a></li>
                         <li><a href=""><span><i class="fa-solid fa-concierge-bell"></i></span>Serviços</a></li>

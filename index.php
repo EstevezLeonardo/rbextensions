@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Página inicial (pública): apresenta o sistema e dá acesso ao login
+ * e ao cadastro. Não exige autenticação.
+ */
+
 require 'vendor/autoload.php';
 
 include 'includes/header.php';

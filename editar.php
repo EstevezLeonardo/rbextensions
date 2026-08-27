@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Edição de usuário existente. Exige login (Login::requireLogin()).
+ * O id vem via GET (?id=), é validado como numérico e precisa
+ * corresponder a um usuário real antes de mostrar o formulário.
+ */
+
 require 'vendor/autoload.php';
 
 define('TITLE', 'Editar Usuário');

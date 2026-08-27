@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Cadastro de novo usuário. Página pública (não exige login) — quem
+ * cadastra a própria conta usa esse formulário; o mesmo formulário
+ * (includes/formulario.php) é reaproveitado em editar.php.
+ */
+
 require 'vendor/autoload.php';
 
 define('TITLE', 'Cadastrar Usuário');

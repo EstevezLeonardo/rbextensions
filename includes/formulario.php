@@ -1,8 +1,15 @@
+<!--
+    Formulário de cadastro/edição de usuário, reaproveitado tanto por
+    cadas.php quanto por editar.php. Espera as constantes/variáveis
+    TITLE (título da página) e $obVaga (dados a pré-preencher; vazio
+    no cadastro, preenchido na edição).
+-->
 <main>
-    
+
     <h2><?= TITLE?></h2>
 
     <form method="POST">
+        <!-- token CSRF: confirmado em cadas.php/editar.php antes de processar o POST -->
         <input type="hidden" name="csrf_token" value="<?= \App\Session\Csrf::token() ?>">
 
         <label for="nome">Nome:</label>

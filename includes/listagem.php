@@ -1,8 +1,17 @@
 <?php
 
+    /**
+     * Corpo da listagem de usuários, incluído por listar-usuarios.php.
+     * Espera $vagas (resultado de Vaga::getVagas), $obPagination,
+     * $busca e $filtroativo (para reexibir o formulário de busca
+     * preenchido). Monta aqui o HTML da tabela e da paginação antes
+     * de imprimir, para manter o bloco de PHP separado do HTML puro.
+     */
+
     $busca = isset($busca) ? $busca : '';
     $filtroativo = isset($filtroativo) ? $filtroativo : '';
 
+    // mensagem de feedback conforme o ?status= vindo do redirect (cadastro/edição/exclusão)
     $mensagem = '';
     if(isset($_GET['status'])) {
         switch($_GET['status']) {
@@ -15,6 +24,7 @@
         }
     }
 
+    // monta as linhas <tr> da tabela a partir da lista de usuários
     $resultados = '';
     if (!empty($vagas) && is_iterable($vagas)) {
         foreach ($vagas as $vaga) {
@@ -42,6 +52,7 @@
 
     $resultados = strlen($resultados) ? $resultados : '<tr><td colspan="6">Nenhum registro encontrado.</td></tr>';
 
+    // monta os botões/links de página a partir de Pagination::getPages()
     $paginacao = '';
     $paginas = [];
 

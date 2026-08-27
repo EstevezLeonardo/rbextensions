@@ -1,3 +1,8 @@
+<!--
+    Formulário de login, incluído por login.php. Espera $mensagem
+    (erro/aviso, opcional) e $obVaga (para reaproveitar o email
+    digitado caso o login falhe).
+-->
 <main>
     <?php if (!empty($mensagem)) : ?>
         <p><?= $mensagem ?></p>
@@ -5,6 +10,7 @@
     <h2>Login</h2>
 
     <form method="POST">
+        <!-- token CSRF: confirmado em login.php antes de processar o POST -->
         <input type="hidden" name="csrf_token" value="<?= \App\Session\Csrf::token() ?>">
 
         <label for="email">Email:</label>

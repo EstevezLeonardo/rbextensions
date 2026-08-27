@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Exclusão de usuário: exige login e confirmação explícita (GET
+ * mostra a tela "tem certeza?"; a exclusão de fato só acontece no
+ * POST, validado com o token CSRF).
+ */
+
 require 'vendor/autoload.php';
 
 use App\Entity\Vaga;

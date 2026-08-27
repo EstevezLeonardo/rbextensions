@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["ES2017", "DOM"],
+    "module": "none",
+    "outDir": "dashboard/public/assets/js",
+    "rootDir": "dashboard/src",
+    "strict": true,
+    "noEmitOnError": true,
+    "sourceMap": false
+  },
+  "include": ["dashboard/src/**/*.ts"]
+}

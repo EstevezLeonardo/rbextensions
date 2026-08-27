@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Listagem de usuários, com busca por nome/sobrenome, filtro por
+ * status (ativo/inativo) e paginação. Exige login. É a página que
+ * concentra os links para cadastrar (via dashboard), editar e excluir.
+ */
+
 require 'vendor/autoload.php';
 
 use App\Entity\Vaga;
@@ -10,6 +16,8 @@ Login::requireLogin();
 
 define('TITLE', 'Usuários');
 
+// escapado com htmlspecialchars por segurança ao reexibir no <input> de busca;
+// a query em si é protegida à parte, via placeholders (?) mais abaixo
 $busca = isset($_GET['busca']) ? htmlspecialchars(trim($_GET['busca']), ENT_QUOTES, 'UTF-8') : '';
 
 $status = isset($_GET['status']) ? htmlspecialchars(trim($_GET['status']), ENT_QUOTES, 'UTF-8') : '';
