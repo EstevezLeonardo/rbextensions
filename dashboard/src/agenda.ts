@@ -21,7 +21,13 @@
  * dashboard/public/assets/js/agenda.js. Carregado em agenda.php DEPOIS
  * dos scripts globais do FullCalendar (core + daygrid), pois depende
  * do objeto global `FullCalendar` que eles expõem.
+ *
+ * Tudo dentro de uma IIFE: como não usamos módulos (sem bundler), os
+ * .ts compilados viram scripts globais — sem isso, nomes de função
+ * repetidos entre agenda.ts e outras páginas (ex: controle-produtos.ts)
+ * colidiriam no escopo global e o `tsc` recusaria compilar.
  */
+(function () {
 
 /** Formato de evento devolvido por dashboard/eventos.php. */
 interface EventoApi {
@@ -377,3 +383,5 @@ function formatarPeriodo(inicioIso: string, fimIso: string): string {
 
     return formatarData(inicioIso) + ' – ' + formatarData(fimIso);
 }
+
+})();

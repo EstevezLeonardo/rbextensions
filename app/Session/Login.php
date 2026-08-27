@@ -26,19 +26,29 @@ class Login{
      * a sessão é limpa e o resultado é "não logado".
      */
     public static function isLogged(){
+        return self::getUsuario() !== null;
+    }
+
+    /**
+     * Devolve o usuário atualmente logado (Vaga), ou null se não
+     * houver sessão válida. Faz a mesma checagem de isLogged() e
+     * limpa a sessão da mesma forma quando o id não corresponde a um
+     * usuário real.
+     */
+    public static function getUsuario(){
         self::startSession();
 
         if (!isset($_SESSION['usuario_id'])) {
-            return false;
+            return null;
         }
 
         $usuario = Vaga::getVaga($_SESSION['usuario_id']);
         if (!$usuario instanceof Vaga) {
             unset($_SESSION['usuario_id']);
-            return false;
+            return null;
         }
 
-        return true;
+        return $usuario;
     }
 
     /** Bloqueia páginas que só podem ser acessadas logado; redireciona para o login caso contrário. */
