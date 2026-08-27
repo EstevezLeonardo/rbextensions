@@ -4,28 +4,32 @@ require 'vendor/autoload.php';
 
 
 use App\Session\Login;
+use App\Session\Csrf;
 
 
 
 Login::requireLogout();
 
+$mensagem = '';
 if(isset($_POST['acao']) && $_POST['acao'] === 'Fazer Login') {
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
-
-    $obVaga = new \App\Entity\Vaga();
-    $usuario = $obVaga->getVagas("email = '$email'")[0] ?? null;
-
-    $mensagem = '';
-    if ($usuario && password_verify($senha, $usuario->senha)) {
-        // Login bem-sucedido
-        session_start();
-        $_SESSION['usuario_id'] = $usuario->id;
-        header('Location: listar-usuarios.php');
-        exit;
+    if (!Csrf::validate($_POST['csrf_token'] ?? '')) {
+        $mensagem = "Sessão expirada. Tente novamente.";
     } else {
-        // Login falhou
-        $mensagem = "Credenciais inválidas. Tente novamente.";
+        $email = $_POST['email'];
+        $senha = $_POST['senha'];
+
+        $obVaga = new \App\Entity\Vaga();
+        $usuario = $obVaga->getVagas('email = ?', null, null, [$email])[0] ?? null;
+
+        if ($usuario && password_verify($senha, $usuario->senha)) {
+            // Login bem-sucedido
+            $_SESSION['usuario_id'] = $usuario->id;
+            header('Location: dashboard/index.php');
+            exit;
+        } else {
+            // Login falhou
+            $mensagem = "Credenciais inválidas. Tente novamente.";
+        }
     }
 }
 

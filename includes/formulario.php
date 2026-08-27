@@ -3,6 +3,8 @@
     <h2><?= TITLE?></h2>
 
     <form method="POST">
+        <input type="hidden" name="csrf_token" value="<?= \App\Session\Csrf::token() ?>">
+
         <label for="nome">Nome:</label>
         <input type="text" name="nome" id="nome" value="<?= $obVaga->nome ?? '' ?>" required>
 

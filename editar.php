@@ -6,8 +6,9 @@ define('TITLE', 'Editar Usuário');
 
 use App\Entity\Vaga;
 use App\Session\Login;
+use App\Session\Csrf;
 
-Login::isLogged();
+Login::requireLogin();
 
 if(!isset($_GET['id']) or !is_numeric($_GET['id'])) {
     header('location: listar-usuarios.php?status=error');
@@ -21,7 +22,12 @@ if(!$obVaga instanceof Vaga) {
 }
 
 if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimento'])) {
-    
+
+    if (!Csrf::validate($_POST['csrf_token'] ?? '')) {
+        header('location: listar-usuarios.php?status=error');
+        exit;
+    }
+
     $obVaga->nome = $_POST['nome'];
     $obVaga->sobrenome = $_POST['sobrenome'];
     $obVaga->email = $_POST['email'];

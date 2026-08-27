@@ -6,7 +6,7 @@ use App\Entity\Vaga;
 use App\Db\Pagination;
 use App\Session\Login;
 
-Login::requireLogout();
+Login::requireLogin();
 
 define('TITLE', 'Usuários');
 
@@ -19,23 +19,27 @@ $ativo = isset($_GET['ativo']) ? htmlspecialchars(trim($_GET['ativo']), ENT_QUOT
 $filtroativo = in_array($status, ['s', 'n']) ? $status : (in_array($ativo, ['s', 'n']) ? $ativo : '');
 
 $condicoes = [];
+$params = [];
 
 if (!empty($busca)) {
-    $condicoes[] = "(nome LIKE '%{$busca}%' OR sobrenome LIKE '%{$busca}%')";
+    $condicoes[] = '(nome LIKE ? OR sobrenome LIKE ?)';
+    $params[] = "%{$busca}%";
+    $params[] = "%{$busca}%";
 }
 
 if ($filtroativo === 's' || $filtroativo === 'n') {
-    $condicoes[] = "ativo = '{$filtroativo}'";
+    $condicoes[] = 'ativo = ?';
+    $params[] = $filtroativo;
 }
 
 $where = implode(' AND ', $condicoes);
 
-$totalVagas = Vaga::getTotalVagas($where);
+$totalVagas = Vaga::getTotalVagas($where, $params);
 
 $obPagination = new Pagination($totalVagas, $_GET['pagina'] ?? 1, 5);
 
 
-$vagas = Vaga::getVagas($where,null, $obPagination->getLimit());
+$vagas = Vaga::getVagas($where, null, $obPagination->getLimit(), $params);
 
 include 'includes/header.php';
 include 'includes/listagem.php';

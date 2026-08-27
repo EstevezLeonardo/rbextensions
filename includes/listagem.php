@@ -62,11 +62,6 @@
 
                 <?= $mensagem ?>
 
-        <a href="cadas.php">
-            <button>Cadastrar Usuário</button>
-        </a>
-    </section>
-
     <section>
 
         <form method="get">
@@ -110,10 +105,13 @@
 
     </section>
     <section class="actions">
-        <a href="index.php">
-            <button>Voltar</button>
+        <a href="dashboard/index.php">
+            <button>Voltar ao Dashboard</button>
         </a>
-    
+        <a href="logout.php">
+            <button>Sair</button>
+        </a>
+
         <?= $paginacao ?>
     </section>
 

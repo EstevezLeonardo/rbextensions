@@ -4,8 +4,9 @@ require 'vendor/autoload.php';
 
 use App\Entity\Vaga;
 use App\Session\Login;
+use App\Session\Csrf;
 
-Login::isLogged();
+Login::requireLogin();
 
 if(!isset($_GET['id']) or !is_numeric($_GET['id'])) {
     header('location: listar-usuarios.php?status=error');
@@ -19,6 +20,11 @@ if(!$obVaga instanceof Vaga) {
 }
 
 if(isset($_POST['excluir'])) {
+
+    if (!Csrf::validate($_POST['csrf_token'] ?? '')) {
+        header('location: listar-usuarios.php?status=error');
+        exit;
+    }
 
     $obVaga->excluir();
 

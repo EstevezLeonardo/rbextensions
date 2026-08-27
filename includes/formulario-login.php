@@ -5,7 +5,8 @@
     <h2>Login</h2>
 
     <form method="POST">
-       
+        <input type="hidden" name="csrf_token" value="<?= \App\Session\Csrf::token() ?>">
+
         <label for="email">Email:</label>
         <input type="email" name="email" id="email" value="<?= $obVaga->email ?? '' ?>" required>
         
