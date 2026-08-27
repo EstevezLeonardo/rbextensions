@@ -1,29 +1,10 @@
 <?php
 
 /**
- * Página inicial (pública): apresenta o sistema e dá acesso ao login
- * e ao cadastro. Não exige autenticação.
+ * A página inicial de verdade mora em usuarios/index.php — este
+ * arquivo só existe pra quem acessar a raiz do site (/rbextensions/)
+ * direto não cair numa listagem de pastas ou página em branco.
  */
 
-require 'vendor/autoload.php';
-
-include 'includes/header.php';
-?>
-<main>
-    <section>
-        <h2>Bem-vindo</h2>
-        <p>Faça login para acessar o sistema.</p>
-        <a href="login.php">
-            <button>Acessar a Conta</button>
-        </a>
-    </section>
-
-    <section>
-        <p>Cadastre-se para acessar o sistema.</p>
-        <a href="cadas.php">
-            <button>Cadastrar</button>
-        </a>
-    </section>
-</main>
-<?php
-include 'includes/footer.php';
+header('Location: usuarios/index.php');
+exit;

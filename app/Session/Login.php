@@ -54,7 +54,7 @@ class Login{
     /** Bloqueia páginas que só podem ser acessadas logado; redireciona para o login caso contrário. */
     public static function requireLogin(){
         if(!self::isLogged()){
-            header('location: /rbextensions/login.php');
+            header('location: /rbextensions/usuarios/login.php');
             exit;
         }
     }

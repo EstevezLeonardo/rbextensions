@@ -9,7 +9,7 @@
  * email/senha (com password_verify) e abre a sessão.
  */
 
-require 'vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 
 use App\Session\Login;
@@ -34,7 +34,7 @@ if(isset($_POST['acao']) && $_POST['acao'] === 'Fazer Login') {
         if ($usuario && password_verify($senha, $usuario->senha)) {
             // Login bem-sucedido
             $_SESSION['usuario_id'] = $usuario->id;
-            header('Location: dashboard/index.php');
+            header('Location: ../dashboard/index.php');
             exit;
         } else {
             // Login falhou

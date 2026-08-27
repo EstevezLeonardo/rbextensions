@@ -6,7 +6,7 @@
  * concentra os links para cadastrar (via dashboard), editar e excluir.
  */
 
-require 'vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 use App\Entity\Vaga;
 use App\Db\Pagination;

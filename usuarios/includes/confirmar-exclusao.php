@@ -12,7 +12,7 @@
     <form method="POST">
         <!-- token CSRF: confirmado em excluir.php antes de processar o POST -->
         <input type="hidden" name="csrf_token" value="<?= \App\Session\Csrf::token() ?>">
-        <a href="listar-usuarios.php">
+        <a href="listar.php">
             <button type="button">Cancelar</button>
         </a>
         <button type="submit" name="excluir">Excluir</button>

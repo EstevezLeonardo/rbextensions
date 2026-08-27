@@ -6,7 +6,7 @@
  * (includes/formulario.php) é reaproveitado em editar.php.
  */
 
-require 'vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 define('TITLE', 'Cadastrar Usuário');
 
@@ -17,7 +17,7 @@ $obVaga = new Vaga();
 
 if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimento'])) {
     if (!Csrf::validate($_POST['csrf_token'] ?? '')) {
-        header('location: cadas.php?status=error');
+        header('location: cadastrar.php?status=error');
         exit;
     }
 
@@ -30,7 +30,7 @@ if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimen
     $obVaga->ativo = $_POST['ativo'];
     $obVaga->cadastrar();
 
-    header('location: listar-usuarios.php?status=success');
+    header('location: listar.php?status=success');
     exit;
 }
 

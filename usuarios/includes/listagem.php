@@ -1,7 +1,7 @@
 <?php
 
     /**
-     * Corpo da listagem de usuários, incluído por listar-usuarios.php.
+     * Corpo da listagem de usuários, incluído por listar.php.
      * Espera $vagas (resultado de Vaga::getVagas), $obPagination,
      * $busca e $filtroativo (para reexibir o formulário de busca
      * preenchido). Monta aqui o HTML da tabela e da paginação antes
@@ -116,7 +116,7 @@
 
     </section>
     <section class="actions">
-        <a href="dashboard/index.php">
+        <a href="../dashboard/index.php">
             <button>Voltar ao Dashboard</button>
         </a>
         <a href="logout.php">

@@ -21,7 +21,7 @@
 
         <input type="submit" name="acao" value="Fazer Login">
 
-        <p>Não possui uma conta? <a href="cadas.php">Cadastre-se</a></p>
+        <p>Não possui uma conta? <a href="cadastrar.php">Cadastre-se</a></p>
     </form>
     
     <section>
