@@ -31,7 +31,7 @@ $usuarioLogado = Login::getUsuario();
     <title>Agenda RB</title>
     <link rel="stylesheet" href="public/assets/css/all.css">
     <link rel="stylesheet" href="public/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="public/assets/css/style.css">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=<?= filemtime(__DIR__.'/public/assets/css/style.css') ?>">
 </head>
 <body>
 
@@ -59,9 +59,9 @@ $usuarioLogado = Login::getUsuario();
                         <li><a href="controle-produtos.php"><span><i class="fa-solid fa-box"></i></span>Produtos</a></li>
                         <li><a href=""><span><i class="fa-solid fa-concierge-bell"></i></span>Serviços</a></li>
                         <li><a href="../usuarios/listar.php"><span><i class="fa-solid fa-user"></i></span>Clientes</a></li>
-                        <li><a href=""><span><i class="fa-solid fa-shopping-cart"></i></span>Vendas</a></li>
-                        <li><a href=""><span><i class="fa-solid fa-warehouse"></i></span>Estoque</a></li>
-                        <li><a href=""><span><i class="fa-solid fa-dollar"></i></span>Financeiro</a></li>
+                        <li><a href="vendas.php"><span><i class="fa-solid fa-shopping-cart"></i></span>Vendas</a></li>
+                        <li><a href="estoque.php"><span><i class="fa-solid fa-warehouse"></i></span>Estoque</a></li>
+                        <li><a href="financeiro.php"><span><i class="fa-solid fa-dollar"></i></span>Financeiro</a></li>
                     </ul>
 
             </nav>
@@ -69,10 +69,6 @@ $usuarioLogado = Login::getUsuario();
         </header>
         <main>
             <div class="nav-top">
-                <div class="bars">
-                    <button class="btns"><i class="fa-solid fa-bars"></i></button>
-                    <p>Painel RB</p>
-                </div>
                     <div class="user-notification">
                         <button
                         class="users">

@@ -57,6 +57,12 @@ class Produto{
             )->fetchAll(PDO::FETCH_COLUMN);
     }
 
+    /** Busca um único produto pelo id. Retorna null se não existir. */
+    public static function getProduto($id){
+        return (new Database('produtos'))->select('id = ?', null, null, '*', [$id])
+                                           ->fetchObject(self::class);
+    }
+
     /**
      * Verifica se já existe outro produto com esse código (Codigo é
      * UNIQUE no banco). $idIgnorar exclui o próprio produto da

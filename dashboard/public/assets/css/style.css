@@ -141,6 +141,11 @@ nav ul li a:hover i{
     justify-content: space-between;
     padding: 10px !important;
 }
+/* páginas sem .bars (só dashboard/index.php tem): empurra a barra de
+   usuário/notificação pra direita em vez de deixá-la colada à esquerda */
+.nav-top .user-notification:only-child{
+    margin-left: auto !important;
+}
 .nav-top .bars{
     display: flex;
 }
@@ -385,6 +390,12 @@ align-items: center;
    formulário estreito) */
 .event-list-card{
     width: 100%;
+}
+/* variante mais estreita do card de largura total (ex: cards de
+   dashboard/financeiro.php) — precisa vir depois de .event-list-card
+   pra ganhar de "width: 100%" com a mesma especificidade */
+.event-list-card.largura-reduzida{
+    width: 65%;
 }
 .lista-eventos{
     list-style: decimal;
