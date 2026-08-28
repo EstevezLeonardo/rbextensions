@@ -83,6 +83,11 @@ $categorias = Produto::getCategorias();
                             <i class="fa-solid fa-bell"></i>
                             <span>1</span>
                         </button>
+                        <a href="../usuarios/logout.php" title="Sair">
+                            <button class="notification logout">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                            </button>
+                        </a>
                     </div>
 
             </div>

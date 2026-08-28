@@ -208,6 +208,11 @@ align-items: center;
     border-radius: 10px;
 }
 
+/* botão de logout, reaproveitando o mesmo círculo de .notification (só o espaçamento é próprio) */
+.user-notification .logout{
+    margin-left: 10px !important;
+}
+
 
 .container-fluids{
     width: 100%;
@@ -509,5 +514,40 @@ align-items: center;
     background-color: #a3813077 !important;
     padding: 4px 8px !important;
     color: #075a20;
+}
+
+/* tabela de resultados dentro de um .event-list-card (ex: usuarios/listar.php),
+   quando a lista é uma <table> em vez de <ol class="lista-eventos"> */
+.table-scroll{
+    width: 100%;
+    overflow-x: auto;
+}
+.event-list-card table.table{
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.event-list-card table.table thead{
+    background-color: #a37407ea;
+    color: #fff;
+}
+/* botões de ação reutilizáveis fora de .lista-eventos (ex: tabela de
+   usuarios/listar.php, botão de confirmar exclusão em usuarios/excluir.php) */
+.btn-editar,
+.btn-excluir{
+    padding: 0.35rem 0.7rem !important;
+    border-radius: 4px !important;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-editar{
+    background-color: #a37407ea;
+    color: #fff;
+}
+.btn-excluir{
+    background-color: #7a1f1f;
+    color: #fff;
+    margin-left: 0.3rem !important;
 }
 

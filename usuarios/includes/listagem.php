@@ -1,11 +1,12 @@
 <?php
 
     /**
-     * Corpo da listagem de usuários, incluído por listar.php.
-     * Espera $vagas (resultado de Vaga::getVagas), $obPagination,
+     * Lógica da listagem de usuários, incluída por listar.php antes do
+     * HTML. Espera $vagas (resultado de Vaga::getVagas), $obPagination,
      * $busca e $filtroativo (para reexibir o formulário de busca
-     * preenchido). Monta aqui o HTML da tabela e da paginação antes
-     * de imprimir, para manter o bloco de PHP separado do HTML puro.
+     * preenchido). Monta aqui as strings $mensagem, $resultados (linhas
+     * <tr>) e $paginacao (botões de página), que listar.php imprime
+     * dentro do layout com visual do dashboard.
      */
 
     $busca = isset($busca) ? $busca : '';
@@ -38,10 +39,10 @@
 
                                 <td>
                                     <a href="editar.php?id='.$vaga->id.'">
-                                        <button>Editar</button>
+                                        <button class="btn-editar">Editar</button>
                                     </a>
                                     <a href="excluir.php?id='.$vaga->id.'">
-                                        <button>Excluir</button>
+                                        <button class="btn-excluir">Excluir</button>
                                     </a>
                                 </td>
                             </tr>';
@@ -68,63 +69,3 @@
             }
         }
     }
-?>
-<main class="wide">
-
-                <?= $mensagem ?>
-
-    <section>
-
-        <form method="get">
-            <label for="busca">Pesquisar:</label>
-            <input type="text" name="busca" placeholder="Pesquisar por nome ou sobrenome" value="<?=$busca?>">
-
-            <label for="ativo">Status:</label>
-            <select name="status">
-                <option value="">Todos</option>
-                <option value="s" <?= isset($filtroativo) && $filtroativo === 's' ? 'selected' : '' ?>>Ativo</option>
-                <option value="n" <?= isset($filtroativo) && $filtroativo === 'n' ? 'selected' : '' ?>>Inativo</option>
-            </select>
-
-            <input type="submit" value="Pesquisar">
-        </form>
-
-    </section>
-
-    <section>
-
-        <div class="table-scroll">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Sobrenome</th>
-                    <th>Status</th>
-                    <th>Email</th>
-                    <th>Data de Nascimento</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <?= $resultados ?>
-            </tbody>
-
-        </table>
-        </div>
-
-    </section>
-    <section class="actions">
-        <a href="../dashboard/index.php">
-            <button>Voltar ao Dashboard</button>
-        </a>
-        <a href="logout.php">
-            <button>Sair</button>
-        </a>
-
-        <?= $paginacao ?>
-    </section>
-
-
-</main>
