@@ -50,6 +50,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const buscaStatusEl = document.getElementById('busca-produto-status') as HTMLSelectElement | null;
     const buscaCategoriaEl = document.getElementById('busca-produto-categoria') as HTMLSelectElement | null;
 
+    // ?busca= na URL (vindo da busca global do cabeçalho, dashboard/src/busca-menu.ts)
+    // já entra pré-preenchido e dispara a busca sozinho, sem precisar digitar de novo
+    const buscaInicial = new URLSearchParams(window.location.search).get('busca');
+    if (buscaInicial && buscaTextoEl) {
+        buscaTextoEl.value = buscaInicial;
+    }
+
     let paginaAtual = 1;
 
     const carregarPagina = function (pagina: number): void {

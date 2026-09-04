@@ -8,8 +8,11 @@
  * página pra visitar pelo menu, só uma fonte de dados.
  *
  * Aceita via querystring, vindo da caixa "Buscar no Extrato":
- *   - busca:  texto a procurar no nome do cliente ou no nome/código do produto (LIKE)
- *   - pagina: página atual (padrão 1)
+ *   - busca:    texto a procurar no nome do cliente ou no nome/código do produto (LIKE)
+ *   - pagina:   página atual (padrão 1)
+ *   - venda_id: em vez de busca, mostra só os itens dessa venda
+ *               específica (vindo do botão "Venda" de dashboard/index.php
+ *               ou do link "Ver extrato completo" de dashboard/vendas.php)
  *
  * Devolve { itens, paginaAtual, totalPaginas }.
  *
@@ -25,11 +28,15 @@ use App\Session\Login;
 Login::requireLogin();
 
 $busca = trim($_GET['busca'] ?? '');
+$vendaId = $_GET['venda_id'] ?? '';
 
 $condicoes = [];
 $params = [];
 
-if ($busca !== '') {
+if ($vendaId !== '' && ctype_digit((string) $vendaId)) {
+    $condicoes[] = 'vi.VendaId = ?';
+    $params[] = $vendaId;
+} elseif ($busca !== '') {
     $condicoes[] = "(CONCAT(u.nome, ' ', u.sobrenome) LIKE ? OR p.Nome LIKE ? OR p.Codigo LIKE ?)";
     $params[] = "%{$busca}%";
     $params[] = "%{$busca}%";

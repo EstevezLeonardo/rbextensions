@@ -71,7 +71,7 @@ if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimen
 
             <nav>
                 <div class="logo">
-                    <a href="#">
+                    <a href="../dashboard/index.php">
                         <img src="../dashboard/public/assets/images/Royal_Brazilian_Extensions_logo_transparente.png" alt="Logo">
                     </a>
 
@@ -86,9 +86,9 @@ if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimen
                     <ul>
                         <li><a href="../dashboard/index.php"><span><i class="fa-solid fa-home"></i></span>Home</a></li>
                         <li><a href="../dashboard/agenda.php"><span><i class="fa-solid fa-calendar-alt"></i></span>Agenda</a></li>
-                        <li><a href=""><span><i class="fa-solid fa-server"></i></span>Perfil</a></li>
+                        <li><a href="../dashboard/perfil.php"><span><i class="fa-solid fa-server"></i></span>Perfil</a></li>
                         <li><a href="../dashboard/controle-produtos.php"><span><i class="fa-solid fa-box"></i></span>Produtos</a></li>
-                        <li><a href="../dashboard/servicos.php"><span><i class="fa-solid fa-concierge-bell"></i></span>Serviços</a></li>
+                        <li><a href="../dashboard/servicos.php"><span><i class="fa-solid fa-envelope"></i></span>Correio</a></li>
                         <li><a href="listar.php" class="actives"><span><i class="fa-solid fa-user"></i></span>Clientes</a></li>
                         <li><a href="../dashboard/vendas.php"><span><i class="fa-solid fa-shopping-cart"></i></span>Vendas</a></li>
                         <li><a href="../dashboard/estoque.php"><span><i class="fa-solid fa-warehouse"></i></span>Estoque</a></li>
@@ -101,15 +101,18 @@ if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimen
         <main>
             <div class="nav-top">
                     <div class="user-notification">
-                        <button
-                        class="users">
-                            <p>Olá, <span><?= htmlspecialchars($usuarioLogado->nome, ENT_QUOTES, 'UTF-8') ?></span></p>
-                            <i class="fa-solid fa-user"></i>
-                        </button>
-                        <button class="notification">
-                            <i class="fa-solid fa-bell"></i>
-                            <span>1</span>
-                        </button>
+                        <a href="../dashboard/perfil.php" title="Ver perfil">
+                            <button class="users">
+                                <p>Olá, <span><?= htmlspecialchars($usuarioLogado->nome, ENT_QUOTES, 'UTF-8') ?></span></p>
+                                <i class="fa-solid fa-user"></i>
+                            </button>
+                        </a>
+                        <a href="../dashboard/servicos.php" title="Ver notificações">
+                            <button class="notification">
+                                <i class="fa-solid fa-bell"></i>
+                                <span id="notificacoes-badge" class="escondido">0</span>
+                            </button>
+                        </a>
                         <a href="logout.php" title="Sair">
                             <button class="notification logout">
                                 <i class="fa-solid fa-right-from-bracket"></i>
@@ -143,7 +146,7 @@ if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimen
 
                         <div class="campo">
                             <label for="datanascimento">Data de Nascimento</label>
-                            <input type="date" name="datanascimento" id="datanascimento" value="<?= htmlspecialchars($obVaga->datanascimento ?? '', ENT_QUOTES, 'UTF-8') ?>" required>
+                            <input type="date" name="datanascimento" id="datanascimento" value="<?= htmlspecialchars($obVaga->datanascimento ? date('Y-m-d', strtotime($obVaga->datanascimento)) : '', ENT_QUOTES, 'UTF-8') ?>" required>
                         </div>
 
                         <fieldset class="campo campo-radio">
@@ -163,5 +166,7 @@ if(isset($_POST['nome'],$_POST['sobrenome'],$_POST['email'],$_POST['datanascimen
     </div>
 
     <script src="../dashboard/public/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../dashboard/public/assets/js/notificacoes.js?v=<?= filemtime(__DIR__.'/../dashboard/public/assets/js/notificacoes.js') ?>"></script>
+    <script src="../dashboard/public/assets/js/busca-menu.js?v=<?= filemtime(__DIR__.'/../dashboard/public/assets/js/busca-menu.js') ?>"></script>
 </body>
 </html>

@@ -3,11 +3,19 @@
  * Estoque (dashboard/estoque.php).
  *
  * Liga:
+ *   - o filtro "Categoria do produto" de "Registrar Movimentação": não
+ *     manda nada pro servidor, só mostra/esconde as <option> de
+ *     #movimentacao-produto conforme o data-categoria de cada uma
+ *     (preenchido em PHP a partir de App\Entity\Produto::$Categoria) —
+ *     existe só pra achar mais fácil o produto certo quando várias
+ *     categorias têm nomes parecidos;
  *   - o formulário "Registrar Movimentação" (produto, tipo, quantidade,
  *     observação), que sempre CRIA — diferente de Produtos, não existe
  *     modo de edição aqui (dashboard/estoque-criar.php);
- *   - a caixa "Buscar Movimentações" (produto e tipo), que recarrega o
- *     histórico a partir da página 1;
+ *   - a caixa "Buscar Movimentações" (produto, tipo e categoria), que
+ *     recarrega o histórico a partir da página 1 — esse filtro de
+ *     categoria já vai pro servidor (dashboard/estoque-listar.php),
+ *     diferente do de "Registrar Movimentação" acima;
  *   - o histórico (#lista-movimentacoes), paginado em 10 por página
  *     (dashboard/estoque-listar.php), com o botão "Excluir" (dois
  *     cliques: o primeiro pede confirmação, o segundo desfaz a
@@ -26,10 +34,11 @@
     document.addEventListener('DOMContentLoaded', function () {
         const buscaTextoEl = document.getElementById('busca-movimentacao-texto');
         const buscaTipoEl = document.getElementById('busca-movimentacao-tipo');
+        const buscaCategoriaEl = document.getElementById('busca-movimentacao-categoria');
         let paginaAtual = 1;
         const carregarPagina = function (pagina) {
             paginaAtual = pagina;
-            carregarListaDeMovimentacoes(buscaTextoEl, buscaTipoEl, pagina, carregarPagina, recarregarPaginaAtual);
+            carregarListaDeMovimentacoes(buscaTextoEl, buscaTipoEl, buscaCategoriaEl, pagina, carregarPagina, recarregarPaginaAtual);
         };
         // recarrega a mesma página em que a pessoa está (usado depois de excluir um item)
         const recarregarPaginaAtual = function () {
@@ -39,10 +48,37 @@
         const buscarDoInicio = function () {
             carregarPagina(1);
         };
+        ligarFiltroDeCategoriaDoProduto();
         ligarFormularioDeMovimentacao(buscarDoInicio);
-        ligarBuscaDeMovimentacoes(buscarDoInicio);
+        ligarBuscaDeMovimentacoes(buscarDoInicio, buscaCategoriaEl);
         buscarDoInicio();
     });
+    /**
+     * Liga "Categoria do produto" (Registrar Movimentação): não manda nada
+     * pro servidor, só mostra/esconde as <option> de #movimentacao-produto
+     * conforme o data-categoria de cada uma. Trocar de categoria com um
+     * produto de outra já selecionado limpa a seleção (senão a
+     * movimentação seria registrada num produto escondido/fora do filtro,
+     * sem a pessoa perceber).
+     */
+    function ligarFiltroDeCategoriaDoProduto() {
+        const categoriaEl = document.getElementById('movimentacao-categoria-filtro');
+        const produtoEl = document.getElementById('movimentacao-produto');
+        if (!categoriaEl || !produtoEl) {
+            return;
+        }
+        const opcoes = Array.from(produtoEl.options);
+        categoriaEl.addEventListener('change', function () {
+            const categoria = categoriaEl.value;
+            const opcaoSelecionada = produtoEl.options[produtoEl.selectedIndex];
+            opcoes.forEach(function (opcao) {
+                opcao.hidden = categoria !== '' && opcao.value !== '' && opcao.dataset.categoria !== categoria;
+            });
+            if (opcaoSelecionada && opcaoSelecionada.hidden) {
+                produtoEl.value = '';
+            }
+        });
+    }
     // "Compra de Produtos": bloco independente do de Movimentações acima,
     // com seu próprio estado de paginação — as duas listas da página
     // (histórico de movimentações e compras) recarregam cada uma na sua.
@@ -122,10 +158,10 @@
     }
     /**
      * Liga a caixa "Buscar Movimentações": clicar em "Buscar" (ou apertar
-     * Enter no campo de texto, ou trocar o tipo) volta o histórico pra
-     * página 1, já com os filtros atuais.
+     * Enter no campo de texto, ou trocar o tipo/categoria) volta o
+     * histórico pra página 1, já com os filtros atuais.
      */
-    function ligarBuscaDeMovimentacoes(buscarDoInicio) {
+    function ligarBuscaDeMovimentacoes(buscarDoInicio, categoriaEl) {
         const botaoBuscar = document.getElementById('botao-buscar-movimentacoes');
         const textoEl = document.getElementById('busca-movimentacao-texto');
         const tipoEl = document.getElementById('busca-movimentacao-tipo');
@@ -141,9 +177,12 @@
                 }
             });
         }
-        // trocar o tipo já dispara a busca sozinho, sem precisar clicar em "Buscar"
+        // trocar o tipo ou a categoria já dispara a busca sozinho, sem precisar clicar em "Buscar"
         if (tipoEl) {
             tipoEl.addEventListener('change', buscarDoInicio);
+        }
+        if (categoriaEl) {
+            categoriaEl.addEventListener('change', buscarDoInicio);
         }
     }
     /**
@@ -152,7 +191,7 @@
      * #lista-movimentacoes, mais os botões de página em
      * #paginacao-movimentacoes.
      */
-    function carregarListaDeMovimentacoes(buscaTextoEl, buscaTipoEl, pagina, irParaPagina, recarregarPaginaAtual) {
+    function carregarListaDeMovimentacoes(buscaTextoEl, buscaTipoEl, buscaCategoriaEl, pagina, irParaPagina, recarregarPaginaAtual) {
         const listaEl = document.getElementById('lista-movimentacoes');
         const mensagemEl = document.getElementById('lista-movimentacoes-mensagem');
         if (!listaEl) {
@@ -161,6 +200,7 @@
         const parametros = new URLSearchParams({
             busca: buscaTextoEl ? buscaTextoEl.value : '',
             tipo: buscaTipoEl ? buscaTipoEl.value : '',
+            categoria: buscaCategoriaEl ? buscaCategoriaEl.value : '',
             pagina: String(pagina),
         });
         fetch('estoque-listar.php?' + parametros.toString())
@@ -195,7 +235,7 @@
             const info = document.createElement('div');
             info.className = 'evento-item-info';
             const titulo = document.createElement('strong');
-            titulo.textContent = movimentacao.ProdutoCodigo + ' — ' + movimentacao.ProdutoNome;
+            titulo.textContent = movimentacao.ProdutoCodigo + ' — ' + movimentacao.ProdutoNome + ' (' + movimentacao.ProdutoCategoria + ')';
             const detalhes = document.createElement('span');
             detalhes.textContent = formatarDetalhes(movimentacao);
             info.appendChild(titulo);

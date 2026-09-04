@@ -128,6 +128,19 @@ class GmailApi{
     }
 
     /**
+     * Nº de mensagens não lidas na Caixa de Entrada — o Gmail já mantém
+     * esse contador pronto por label, então é uma chamada só (bem mais
+     * barato que listar/paginar mensagens). Usado pelo sino de
+     * notificações do cabeçalho (dashboard/servicos-notificacoes.php).
+     *
+     * @throws \RuntimeException se a chamada falhar
+     */
+    public function contarNaoLidas(){
+        $label = $this->chamar('GET', '/labels/INBOX');
+        return (int) ($label['messagesUnread'] ?? 0);
+    }
+
+    /**
      * Busca o corpo completo de uma mensagem pelo id (o mesmo id devolvido
      * por listar()). Quando a mensagem tem versão HTML, devolve ela
      * (sanitizada, com as imagens embutidas via cid: já baixadas e

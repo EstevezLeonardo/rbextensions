@@ -8,9 +8,10 @@
  * só uma fonte de dados.
  *
  * Aceita via querystring, vindos da caixa "Buscar Movimentações":
- *   - busca: texto a procurar no nome ou no código do produto (LIKE)
- *   - tipo:  "entrada" ou "saida"
- *   - pagina: página atual (padrão 1)
+ *   - busca:     texto a procurar no nome ou no código do produto (LIKE)
+ *   - tipo:      "entrada" ou "saida"
+ *   - categoria: categoria do produto (igual às de App\Entity\Produto::getCategorias())
+ *   - pagina:    página atual (padrão 1)
  *
  * Devolve { movimentacoes, paginaAtual, totalPaginas }.
  *
@@ -27,6 +28,7 @@ Login::requireLogin();
 
 $busca = trim($_GET['busca'] ?? '');
 $tipo = trim($_GET['tipo'] ?? '');
+$categoria = trim($_GET['categoria'] ?? '');
 
 $condicoes = [];
 $params = [];
@@ -40,6 +42,11 @@ if ($busca !== '') {
 if ($tipo === 'entrada' || $tipo === 'saida') {
     $condicoes[] = 'm.Tipo = ?';
     $params[] = $tipo;
+}
+
+if ($categoria !== '') {
+    $condicoes[] = 'p.Categoria = ?';
+    $params[] = $categoria;
 }
 
 $where = implode(' AND ', $condicoes);

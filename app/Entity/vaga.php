@@ -20,6 +20,7 @@ class Vaga{
     public $email;
     public $datanascimento;
     public $senha;
+    public $foto;
     public $google_refresh_token;
 
 
@@ -59,7 +60,8 @@ class Vaga{
                         'ativo' => $this->ativo,
                         'email' => $this->email,
                         'datanascimento' => $this->datanascimento,
-                        'senha' => $this->senha
+                        'senha' => $this->senha,
+                        'foto' => $this->foto
             ], [$this->id]);
     }
 

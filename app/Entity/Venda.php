@@ -101,6 +101,32 @@ class Venda{
     }
 
     /**
+     * Soma o valor das vendas concluídas de $ano (padrão: ano atual),
+     * agrupado por mês — usado no gráfico "Vendas por Mês" de
+     * dashboard/index.php. Extornadas não contam (mesmo critério de
+     * debitoPix/credito em getResumoFinanceiro).
+     *
+     * @return float[] índices 1 (janeiro) a 12 (dezembro), 0 nos meses sem venda
+     */
+    public static function getTotalPorMes($ano = null){
+        $ano = $ano ?? date('Y');
+
+        $sql = "SELECT MONTH(Data) AS mes, COALESCE(SUM(ValorTotal), 0) AS total
+                FROM `vendas`
+                WHERE YEAR(Data) = ? AND Status = 'concluida'
+                GROUP BY MONTH(Data)";
+
+        $linhas = (new Database())->execute($sql, [$ano])->fetchAll(PDO::FETCH_ASSOC);
+
+        $totalPorMes = array_fill(1, 12, 0.0);
+        foreach ($linhas as $linha) {
+            $totalPorMes[(int) $linha['mes']] = (float) $linha['total'];
+        }
+
+        return $totalPorMes;
+    }
+
+    /**
      * Insere esta venda no banco, usando os valores já atribuídos.
      * Preenche $this->id com o id gerado.
      */

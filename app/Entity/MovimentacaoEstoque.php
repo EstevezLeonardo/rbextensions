@@ -9,10 +9,10 @@ use \PDO;
  * Representa uma movimentação de estoque (tabela `movimentacoes_estoque`:
  * id, ProdutoId, Tipo [entrada/saida], Quantidade, Observacao, Data).
  *
- * ProdutoCodigo/ProdutoNome vêm de um JOIN com `produtos` (feito em
- * getMovimentacoes/getTotalMovimentacoes/getMovimentacao, direto via
- * Database::execute() — a tabela `produtos` não faz parte desta
- * entidade), só pra exibição; não são colunas desta tabela.
+ * ProdutoCodigo/ProdutoNome/ProdutoCategoria vêm de um JOIN com
+ * `produtos` (feito em getMovimentacoes/getTotalMovimentacoes/getMovimentacao,
+ * direto via Database::execute() — a tabela `produtos` não faz parte
+ * desta entidade), só pra exibição/filtro; não são colunas desta tabela.
  *
  * Esta classe só insere/remove a movimentação em si. Ajustar a
  * Quantidade do produto correspondente (+ na entrada, - na saída) é
@@ -29,12 +29,14 @@ class MovimentacaoEstoque{
     public $Data;
     public $ProdutoCodigo;
     public $ProdutoNome;
+    public $ProdutoCategoria;
 
     /**
-     * Busca movimentações (com o código/nome do produto via JOIN),
-     * da mais recente pra mais antiga. $where deve usar placeholders
-     * `?` com os campos das tabelas `m` (movimentacoes_estoque) e `p`
-     * (produtos) — ex: 'p.Nome LIKE ?' ou 'm.Tipo = ?'.
+     * Busca movimentações (com código/nome/categoria do produto via
+     * JOIN), da mais recente pra mais antiga. $where deve usar
+     * placeholders `?` com os campos das tabelas `m`
+     * (movimentacoes_estoque) e `p` (produtos) — ex: 'p.Nome LIKE ?',
+     * 'p.Categoria = ?' ou 'm.Tipo = ?'.
      *
      * @return MovimentacaoEstoque[]
      */
@@ -42,7 +44,7 @@ class MovimentacaoEstoque{
         $where = !empty($where) ? 'WHERE '.$where : '';
         $limit = !empty($limit) ? 'LIMIT '.$limit : '';
 
-        $sql = 'SELECT m.*, p.Codigo AS ProdutoCodigo, p.Nome AS ProdutoNome
+        $sql = 'SELECT m.*, p.Codigo AS ProdutoCodigo, p.Nome AS ProdutoNome, p.Categoria AS ProdutoCategoria
                 FROM `movimentacoes_estoque` m
                 INNER JOIN `produtos` p ON p.id = m.ProdutoId
                 '.$where.'
@@ -69,7 +71,7 @@ class MovimentacaoEstoque{
 
     /** Busca uma única movimentação pelo id (com o produto via JOIN). Retorna null se não existir. */
     public static function getMovimentacao($id){
-        $sql = 'SELECT m.*, p.Codigo AS ProdutoCodigo, p.Nome AS ProdutoNome
+        $sql = 'SELECT m.*, p.Codigo AS ProdutoCodigo, p.Nome AS ProdutoNome, p.Categoria AS ProdutoCategoria
                 FROM `movimentacoes_estoque` m
                 INNER JOIN `produtos` p ON p.id = m.ProdutoId
                 WHERE m.id = ?';
@@ -100,5 +102,33 @@ class MovimentacaoEstoque{
      */
     public function excluir(){
         return (new Database('movimentacoes_estoque'))->delete('id = ?', [$this->id]);
+    }
+
+    /**
+     * Quantidade de entrada/saída movimentada em $data (padrão: hoje),
+     * separado por tipo (mais o saldo = entradas - saidas, pra quem só
+     * quer o número final). Usado no card "Balanço de Produtos" de
+     * dashboard/index.php.
+     *
+     * @return object{entradas: int, saidas: int, saldo: int}
+     */
+    public static function getBalancoDoDia($data = null){
+        $data = $data ?? date('Y-m-d');
+
+        $sql = "SELECT
+                    COALESCE(SUM(CASE WHEN Tipo = 'entrada' THEN Quantidade ELSE 0 END), 0) AS entradas,
+                    COALESCE(SUM(CASE WHEN Tipo = 'saida' THEN Quantidade ELSE 0 END), 0) AS saidas
+                FROM `movimentacoes_estoque`
+                WHERE DATE(Data) = ?";
+
+        $linha = (new Database())->execute($sql, [$data])->fetchObject();
+        $entradas = (int) $linha->entradas;
+        $saidas = (int) $linha->saidas;
+
+        return (object) [
+            'entradas' => $entradas,
+            'saidas' => $saidas,
+            'saldo' => $entradas - $saidas,
+        ];
     }
 }

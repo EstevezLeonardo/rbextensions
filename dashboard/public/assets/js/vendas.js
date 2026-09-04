@@ -10,6 +10,12 @@
  *     (dashboard/vendas-listar.php) — só leitura, sem editar/excluir
  *     (venda é registro financeiro, não se desfaz por aqui).
  *
+ * #filtro-venda-id (preenchido pelo PHP a partir de ?venda_id=, vindo
+ * do botão "Venda" de dashboard/index.php) manda esse id em toda
+ * requisição a vendas-listar.php, que passa a ignorar a busca livre
+ * enquanto ele estiver presente — o próprio PHP já esconde a caixa de
+ * busca nesse caso (link "Ver extrato completo" pra voltar ao normal).
+ *
  * Compilado por `tsc` (ver tsconfig.json na raiz do projeto) para
  * dashboard/public/assets/js/vendas.js.
  *
@@ -57,12 +63,14 @@
     function carregarExtrato(buscaTextoEl, pagina, irParaPagina) {
         const corpoTabelaEl = document.getElementById('lista-vendas');
         const mensagemEl = document.getElementById('lista-vendas-mensagem');
+        const filtroVendaIdEl = document.getElementById('filtro-venda-id');
         if (!corpoTabelaEl) {
             return;
         }
         const parametros = new URLSearchParams({
             busca: buscaTextoEl ? buscaTextoEl.value : '',
             pagina: String(pagina),
+            venda_id: filtroVendaIdEl ? filtroVendaIdEl.value : '',
         });
         fetch('vendas-listar.php?' + parametros.toString())
             .then(function (resposta) {

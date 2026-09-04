@@ -19,11 +19,25 @@
 require __DIR__.'/../vendor/autoload.php';
 
 use App\Session\Login;
+use App\Mail\GoogleOAuth;
+use App\Mail\GmailApi;
 
 Login::requireLogin();
 
 $usuarioLogado = Login::getUsuario();
 $emailConfigurado = !empty($usuarioLogado->google_refresh_token);
+
+// zera a contagem do sino de notificações (dashboard/servicos-notificacoes.php)
+// — entrar aqui já é o suficiente pra "ver" os e-mails novos, não precisa
+// abrir cada um; falha da API do Google aqui não pode travar a página.
+if ($emailConfigurado) {
+    try {
+        $accessToken = GoogleOAuth::obterAccessTokenParaUsuario($usuarioLogado->google_refresh_token);
+        $_SESSION['email_naolidas_base'] = (new GmailApi($accessToken))->contarNaoLidas();
+    } catch (\Throwable $e) {
+        // silencioso — não é motivo pra impedir o resto da página de carregar
+    }
+}
 
 $mensagensDeErroOAuth = [
     'cancelado' => 'Conexão cancelada.',
@@ -52,7 +66,7 @@ $conectadoAgora = isset($_GET['email_conectado']);
 
             <nav>
                 <div class="logo">
-                    <a href="#">
+                    <a href="index.php">
                         <img src="public/assets/images/Royal_Brazilian_Extensions_logo_transparente.png" alt="Logo">
                     </a>
 
@@ -67,9 +81,9 @@ $conectadoAgora = isset($_GET['email_conectado']);
                     <ul>
                         <li><a href="index.php"><span><i class="fa-solid fa-home"></i></span>Home</a></li>
                         <li><a href="agenda.php"><span><i class="fa-solid fa-calendar-alt"></i></span>Agenda</a></li>
-                        <li><a href=""><span><i class="fa-solid fa-server"></i></span>Perfil</a></li>
+                        <li><a href="perfil.php"><span><i class="fa-solid fa-server"></i></span>Perfil</a></li>
                         <li><a href="controle-produtos.php"><span><i class="fa-solid fa-box"></i></span>Produtos</a></li>
-                        <li><a href="servicos.php" class="actives"><span><i class="fa-solid fa-concierge-bell"></i></span>Serviços</a></li>
+                        <li><a href="servicos.php" class="actives"><span><i class="fa-solid fa-envelope"></i></span>Correio</a></li>
                         <li><a href="../usuarios/listar.php"><span><i class="fa-solid fa-user"></i></span>Clientes</a></li>
                         <li><a href="vendas.php"><span><i class="fa-solid fa-shopping-cart"></i></span>Vendas</a></li>
                         <li><a href="estoque.php"><span><i class="fa-solid fa-warehouse"></i></span>Estoque</a></li>
@@ -82,15 +96,18 @@ $conectadoAgora = isset($_GET['email_conectado']);
         <main>
             <div class="nav-top">
                     <div class="user-notification">
-                        <button
-                        class="users">
-                            <p>Olá, <span><?= htmlspecialchars($usuarioLogado->nome, ENT_QUOTES, 'UTF-8') ?></span></p>
-                            <i class="fa-solid fa-user"></i>
-                        </button>
-                        <button class="notification">
-                            <i class="fa-solid fa-bell"></i>
-                            <span>1</span>
-                        </button>
+                        <a href="perfil.php" title="Ver perfil">
+                            <button class="users">
+                                <p>Olá, <span><?= htmlspecialchars($usuarioLogado->nome, ENT_QUOTES, 'UTF-8') ?></span></p>
+                                <i class="fa-solid fa-user"></i>
+                            </button>
+                        </a>
+                        <a href="servicos.php" title="Ver notificações">
+                            <button class="notification">
+                                <i class="fa-solid fa-bell"></i>
+                                <span id="notificacoes-badge" class="escondido">0</span>
+                            </button>
+                        </a>
                         <a href="../usuarios/logout.php" title="Sair">
                             <button class="notification logout">
                                 <i class="fa-solid fa-right-from-bracket"></i>
@@ -205,6 +222,8 @@ $conectadoAgora = isset($_GET['email_conectado']);
         </div>
 
     <script src="public/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="public/assets/js/notificacoes.js?v=<?= filemtime(__DIR__.'/public/assets/js/notificacoes.js') ?>"></script>
+    <script src="public/assets/js/busca-menu.js?v=<?= filemtime(__DIR__.'/public/assets/js/busca-menu.js') ?>"></script>
     <script src="public/assets/js/servicos.js?v=<?= filemtime(__DIR__.'/public/assets/js/servicos.js') ?>"></script>
 </body>
 </html>

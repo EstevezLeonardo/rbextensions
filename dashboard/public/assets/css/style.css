@@ -33,6 +33,9 @@ header{
 main{
     width: 80%;
     margin-left: 20% !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 nav{
@@ -93,6 +96,46 @@ nav .form-group .rows i{
     font-size: 0.8rem;
 }
 
+/* lista suspensa da busca global do cabeçalho (dashboard/src/busca-menu.ts) */
+.busca-resultados{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 360px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    z-index: 30;
+    padding: 0.4rem !important;
+}
+.busca-resultados-grupo-titulo{
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #a37407ea;
+    padding: 0.5rem 0.6rem 0.2rem !important;
+    margin: 0 !important;
+}
+.busca-resultados a{
+    display: block;
+    padding: 0.5rem 0.6rem !important;
+    border-radius: 4px !important;
+    color: #5f4404;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+.busca-resultados a:hover{
+    background-color: #af8a3440;
+}
+.busca-resultados-vazio{
+    padding: 0.6rem !important;
+    font-size: 0.8rem;
+    color: #5f4404;
+    margin: 0 !important;
+}
+
 nav ul{
     width: 100%;
     list-style: none !important;
@@ -148,15 +191,58 @@ nav ul li a:hover i{
 }
 .nav-top .bars{
     display: flex;
+    position: relative;
 }
+/* menu do seletor de visão (dashboard/index.php), aberto pelo botão de barras */
+.menu-visoes{
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    margin-top: 0.3rem !important;
+    background-color: #fff;
+    border: 1px solid #a37407ea;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    min-width: 240px;
+    padding: 0.4rem !important;
+    z-index: 20;
+}
+.menu-visoes-opcao{
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 0.5rem 0.7rem !important;
+    margin: 0 !important;
+    border-radius: 4px !important;
+    color: #5f4404;
+    font-weight: 500;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+.menu-visoes-opcao:hover{
+    background-color: #af8a3440;
+}
+.menu-visoes-opcao.ativo{
+    background-color: #a37407ea;
+    color: #fff;
+}
+/* mesma linguagem dos círculos dourados (sino/logout/avatar), mas em marrom escuro — contraste, já que este abre um menu, não é um link */
 .nav-top .bars .btns{
-    background-color: #635c5c8a;
-    color: goldenrod !important;
-    padding: 10px 12px !important;
-    margin: 10px;   
-    border: none;   
-    border-radius: 40%;
-    margin-right: 10px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #5f4404;
+    color: #fff !important;
+    padding: 10px !important;
+    margin: 10px 10px 10px 0 !important;
+    border: none;
+    border-radius: 50%;
+    transition: background-color 0.15s;
+}
+.nav-top .bars .btns:hover{
+    background-color: #a37407ea;
 }
 .nav-top .bars .btns i{
     font-size: 1rem;
@@ -168,49 +254,94 @@ nav ul li a:hover i{
     color: black;
     font-weight: 500;
 }
+/* "Painel RB" (dashboard/index.php) como uma marca em duas cores, no lugar do texto preto simples */
+.marca-painel{
+    font-weight: 400 !important;
+    letter-spacing: 0.3px;
+    color: #5f4404 !important;
+}
+.marca-painel span{
+    font-weight: 700;
+    color: #a37407ea;
+}
 
 .user-notification{
-display: flex;  
+display: flex;
 justify-content: center;
 align-items: center;
 }
+/* botões "users"/notificação/logout viraram links (<a>) — sem o sublinhado/azul padrão do navegador */
+.user-notification a{
+    text-decoration: none;
+    color: inherit;
+}
 
+/* "chip de perfil": pílula dourada suave (mesmo tom dos cards) com o ícone virando um mini avatar circular à esquerda */
 .user-notification .users{
     display: flex;
+    align-items: center;
+    gap: 8px;
     margin-right: 10px !important;
+    padding: 6px 14px 6px 6px !important;
     border: none;
+    border-radius: 30px;
+    background-color: #af8a3440;
+    transition: background-color 0.15s;
+}
+.user-notification .users:hover{
+    background-color: #af8a3470;
 }
 
 .user-notification .users p{
     margin: 0 !important;
     padding: 0 !important;
     font-weight: 500;
-    color: #635c5c8a;
+    color: #5f4404;
     font-size: 0.8rem;
 }
 .user-notification .users i{
-    
-    color: #635c5c8a;
-    margin-left: 8px !important;
-    font-size: 1rem;
+    order: -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: #a37407ea;
+    color: #fff;
+    margin-left: 0 !important;
+    font-size: 0.8rem;
 }
+/* mesma paleta do "avatar" do chip de perfil: círculo dourado sólido, ícone branco, escurece no hover */
 .user-notification .notification{
     padding: 10px !important;
     border: none;
-    border-radius: 40%;
-    background-color:#b18e3d94;
+    border-radius: 50%;
+    background-color: #a37407ea;
     position: relative;
+    transition: background-color 0.15s;
+}
+.user-notification .notification:hover{
+    background-color: #8a5f06ea;
 }
 .user-notification .notification i{
-    color: #635c5c8a;
+    color: #fff;
     font-size: 1rem;
 }
 .user-notification .notification span{
     position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #a37c21ce;
+    top: -4px;
+    right: -4px;
+    min-width: 18px;
+    padding: 1px 4px !important;
+    background-color: #7a1f1f;
+    border: 2px solid #fff;
     border-radius: 10px;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
 }
 
 /* botão de logout, reaproveitando o mesmo círculo de .notification (só o espaçamento é próprio) */
@@ -221,6 +352,10 @@ align-items: center;
 
 .container-fluids{
     width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .cards{
     width: 100%;
@@ -230,17 +365,20 @@ align-items: center;
     
 }
 .cards .cards-header{
-    width: 280px;
+    width: 360px;
+    min-height: 480px;
     background-color: #af8a3450;
-    display: block;
+    display: flex;
+    flex-direction: column;
     border-radius: 10px;
     margin: 40px !important;
-    flex-wrap: wrap;
 }
 .cards .cards-header .cards-top{
+    flex: 1;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    padding: 0.8rem 1rem !important;
+    padding: 1.2rem 1.5rem !important;
 }
 .cards .cards-header .cards-top .card-number{
     display: block;
@@ -251,24 +389,54 @@ align-items: center;
     color: #a37407ea;
 }
 .cards .cards-header .cards-top .card-number p.value-total{
-    font-size: 2.1rem;
+    font-size: 2.6rem;
     font-weight: 600;
+}
+/* valor em R$ (card "Valor Total das Vendas"): fonte menor, senão o texto ("R$ 1.234,56") estoura a largura do card */
+.cards .cards-header .cards-top .card-number p.value-total.valor-moeda{
+    font-size: 1.7rem;
+    white-space: nowrap;
+}
+/* entradas + saídas lado a lado (card "Balanço de Produtos"), em vez de um número só */
+.cards .cards-header .cards-top .card-number p.value-total.valor-entradas-saidas{
+    display: flex;
+    gap: 1rem;
+    font-size: 1.7rem;
+    white-space: nowrap;
+}
+.valor-entrada{
+    color: #245c2e;
+}
+.valor-saida{
+    color: #7a1f1f;
+}
+.valor-entrada i,
+.valor-saida i{
+    font-size: 1.1rem;
 }
 .cards .cards-header .cards-top .card-number p.days{
     font-weight: 500;
-    font-size:0.8rem;
+    font-size: 0.95rem;
 }
 .cards .cards-header .cards-top .cards-icons{
-    
+
     display: flex;
     justify-content: center;
-    align-items: center;  
+    align-items: center;
 }
 .cards .cards-header .cards-top .cards-icons i{
-    font-size: 4rem;
+    font-size: 4.8rem;
     color: #a37407ea;
-    
+    transition: color 0.15s;
 
+
+}
+/* ícone dos cards da home virou link pra página correspondente do menu (mesmo ícone) */
+.cards .cards-header .cards-top a{
+    text-decoration: none;
+}
+.cards .cards-header .cards-top a:hover .cards-icons i{
+    color: #5f4404;
 }
 .cards .cards-header .cards-type{
     width: 100%;
@@ -281,8 +449,8 @@ align-items: center;
 
 }
 .cards .cards-header .cards-type .ticket{
-    font-size: 0.8;
-    padding: 4px;
+    font-size: 0.95rem;
+    padding: 8px;
     color: #5f4404;
     font-weight: 500;
 }
@@ -302,18 +470,18 @@ align-items: center;
     font-weight: 600;
     margin-bottom: 1rem !important;
 }
-.event-form-card .evento-mensagem{
+.evento-mensagem{
     font-size: 0.85rem;
     font-weight: 500;
     margin-bottom: 0.8rem !important;
 }
-.event-form-card .evento-mensagem:empty{
+.evento-mensagem:empty{
     display: none;
 }
-.event-form-card .evento-mensagem.erro{
+.evento-mensagem.erro{
     color: #7a1f1f;
 }
-.event-form-card .evento-mensagem.sucesso{
+.evento-mensagem.sucesso{
     color: #245c2e;
 }
 .event-form-card .campo{
@@ -364,6 +532,68 @@ align-items: center;
     margin-right: 1rem !important;
     color: #5f4404;
     font-weight: 400;
+}
+/* campo de foto de perfil (dashboard/perfil.php): preview circular + input de arquivo abaixo */
+.campo-foto{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+.foto-perfil-atual{
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background-color: #af8a3440;
+    border: 2px solid #a37407ea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.foto-perfil-atual img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.foto-perfil-atual i{
+    font-size: 2.2rem;
+    color: #a37407ea;
+}
+.campo-foto-acoes{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.campo-foto-acoes button{
+    margin: 0 !important;
+    padding: 0.4rem 0.9rem !important;
+    font-size: 0.8rem;
+}
+/* "Remover Foto" clicado (marcado pra remover ao salvar) — mesmo padrão de "confirmando" do btn-excluir */
+#botao-remover-foto.ativo{
+    background-color: #7a1f1f !important;
+    border-color: #7a1f1f !important;
+    color: #fff !important;
+}
+.campo-foto-nome-arquivo{
+    font-size: 0.75rem;
+    color: #5f4404;
+}
+
+/* dashboard/perfil.php: "Meus Dados" mais largo que os 320px padrão de
+   .event-form-card; "Trocar Senha" fica com a largura padrão (mesmo
+   espaço que os campos de senha ocupavam antes de virar um card à
+   parte). Campos travados (antes de clicar "Editar Dados",
+   dashboard/src/perfil.ts) ficam com um visual "somente leitura". */
+.perfil-dados-card{
+    width: 600px;
+}
+.event-form-card input:disabled{
+    background-color: #00000012 !important;
+    color: #5f4404a0;
+    cursor: not-allowed;
 }
 .event-form-card button{
     margin-top: 0.5rem !important;
@@ -728,19 +958,44 @@ align-items: center;
 
 .containers-fluid{
     display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 1.5rem;
     width: 100%;
     padding: 1rem !important;
 }
 .containers-fluid .rows-responsive{
-    width: 300px;
-    padding: 0.8rem !important;
+    flex: 0 1 42%;
+    min-width: 0;
+    padding: 1.2rem !important;
     background-color: #fff;
+}
+.containers-fluid .rows-responsive table.table{
+    font-size: 1rem;
+}
+.containers-fluid .rows-responsive table.table th,
+.containers-fluid .rows-responsive table.table td{
+    padding: 0.9rem 1rem !important;
 }
 
 .containers-fluid .rows-responsive .table tbody tr td .btn-sm{
     background-color: #a3813077 !important;
-    padding: 4px 8px !important;
+    padding: 6px 12px !important;
     color: #075a20;
+}
+
+/* gráfico "Vendas por Mês" (dashboard/index.php, visão "Extrato de
+   Vendas") — altura fixa porque o Chart.js (maintainAspectRatio:false)
+   precisa de um container com altura definida pra saber até onde
+   crescer. */
+.charts-products{
+    flex: 0 1 42%;
+    min-width: 300px;
+    height: 420px;
+    padding: 1.2rem !important;
+    background-color: #fff;
+    border-radius: 4px;
+    position: relative;
 }
 
 /* tabela de resultados dentro de um .event-list-card (ex: usuarios/listar.php),

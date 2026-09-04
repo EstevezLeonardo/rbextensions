@@ -11,6 +11,12 @@
  * cliente, que pode reaproveitar dashboard/vendas-criar.php (endpoint
  * mantido, mesmo sem UI própria nesta página) pra gravar a venda e
  * descontar o estoque.
+ *
+ * ?venda_id= (vindo do botão "Venda" de dashboard/index.php) abre já
+ * filtrado no extrato daquela venda específica, em vez do extrato
+ * completo — dashboard/vendas-listar.php que faz o filtro de verdade;
+ * aqui só repassamos o id pro JS (dashboard/src/vendas.ts) e mostramos
+ * o aviso com o link pra voltar ao extrato completo.
  */
 
 require __DIR__.'/../vendor/autoload.php';
@@ -20,6 +26,7 @@ use App\Session\Login;
 Login::requireLogin();
 
 $usuarioLogado = Login::getUsuario();
+$vendaIdFiltro = isset($_GET['venda_id']) && ctype_digit((string) $_GET['venda_id']) ? (int) $_GET['venda_id'] : null;
 
 ?>
 <!DOCTYPE html>
@@ -39,7 +46,7 @@ $usuarioLogado = Login::getUsuario();
 
             <nav>
                 <div class="logo">
-                    <a href="#">
+                    <a href="index.php">
                         <img src="public/assets/images/Royal_Brazilian_Extensions_logo_transparente.png" alt="Logo">
                     </a>
 
@@ -54,9 +61,9 @@ $usuarioLogado = Login::getUsuario();
                     <ul>
                         <li><a href="index.php"><span><i class="fa-solid fa-home"></i></span>Home</a></li>
                         <li><a href="agenda.php"><span><i class="fa-solid fa-calendar-alt"></i></span>Agenda</a></li>
-                        <li><a href=""><span><i class="fa-solid fa-server"></i></span>Perfil</a></li>
+                        <li><a href="perfil.php"><span><i class="fa-solid fa-server"></i></span>Perfil</a></li>
                         <li><a href="controle-produtos.php"><span><i class="fa-solid fa-box"></i></span>Produtos</a></li>
-                        <li><a href="servicos.php"><span><i class="fa-solid fa-concierge-bell"></i></span>Serviços</a></li>
+                        <li><a href="servicos.php"><span><i class="fa-solid fa-envelope"></i></span>Correio</a></li>
                         <li><a href="../usuarios/listar.php"><span><i class="fa-solid fa-user"></i></span>Clientes</a></li>
                         <li><a href="vendas.php" class="actives"><span><i class="fa-solid fa-shopping-cart"></i></span>Vendas</a></li>
                         <li><a href="estoque.php"><span><i class="fa-solid fa-warehouse"></i></span>Estoque</a></li>
@@ -69,15 +76,18 @@ $usuarioLogado = Login::getUsuario();
         <main>
             <div class="nav-top">
                     <div class="user-notification">
-                        <button
-                        class="users">
-                            <p>Olá, <span><?= htmlspecialchars($usuarioLogado->nome, ENT_QUOTES, 'UTF-8') ?></span></p>
-                            <i class="fa-solid fa-user"></i>
-                        </button>
-                        <button class="notification">
-                            <i class="fa-solid fa-bell"></i>
-                            <span>1</span>
-                        </button>
+                        <a href="perfil.php" title="Ver perfil">
+                            <button class="users">
+                                <p>Olá, <span><?= htmlspecialchars($usuarioLogado->nome, ENT_QUOTES, 'UTF-8') ?></span></p>
+                                <i class="fa-solid fa-user"></i>
+                            </button>
+                        </a>
+                        <a href="servicos.php" title="Ver notificações">
+                            <button class="notification">
+                                <i class="fa-solid fa-bell"></i>
+                                <span id="notificacoes-badge" class="escondido">0</span>
+                            </button>
+                        </a>
                         <a href="../usuarios/logout.php" title="Sair">
                             <button class="notification logout">
                                 <i class="fa-solid fa-right-from-bracket"></i>
@@ -97,6 +107,10 @@ $usuarioLogado = Login::getUsuario();
             <div class="cards">
                 <div class="event-form-card event-list-card">
                     <h3>Extrato de Vendas</h3>
+                    <input type="hidden" id="filtro-venda-id" value="<?= $vendaIdFiltro ?? '' ?>">
+                    <?php if ($vendaIdFiltro !== null): ?>
+                        <p class="evento-mensagem">Mostrando só a venda #<?= $vendaIdFiltro ?>. <a href="vendas.php">Ver extrato completo</a></p>
+                    <?php endif; ?>
                     <p id="lista-vendas-mensagem" class="evento-mensagem"></p>
 
                     <div class="table-scroll">
@@ -124,7 +138,7 @@ $usuarioLogado = Login::getUsuario();
                 (dashboard/vendas-listar.php) por cliente ou produto.
                 Toda a lógica está em dashboard/public/assets/js/vendas.js.
             -->
-            <div class="cards">
+            <div class="cards<?= $vendaIdFiltro !== null ? ' escondido' : '' ?>">
                 <div class="event-form-card">
                     <h3>Buscar no Extrato</h3>
                     <div class="campo">
@@ -138,6 +152,8 @@ $usuarioLogado = Login::getUsuario();
         </div>
 
     <script src="public/assets/js/bootstrap.bundle.min.js"></script>
-    <script src="public/assets/js/vendas.js"></script>
+    <script src="public/assets/js/notificacoes.js?v=<?= filemtime(__DIR__.'/public/assets/js/notificacoes.js') ?>"></script>
+    <script src="public/assets/js/busca-menu.js?v=<?= filemtime(__DIR__.'/public/assets/js/busca-menu.js') ?>"></script>
+    <script src="public/assets/js/vendas.js?v=<?= filemtime(__DIR__.'/public/assets/js/vendas.js') ?>"></script>
 </body>
 </html>

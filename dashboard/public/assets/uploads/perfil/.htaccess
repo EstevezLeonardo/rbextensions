@@ -1,0 +1,6 @@
+# Fotos de perfil enviadas por usuários (dashboard/perfil.php) — nunca
+# executar nada aqui como script, mesmo que alguém consiga burlar a
+# validação de tipo/extensão no upload.
+<FilesMatch "\.(php|phtml|php\d)$">
+    Require all denied
+</FilesMatch>

@@ -1,2 +1,7 @@
 .env
 node_modules/
+
+# fotos de perfil enviadas por usuários (dashboard/perfil.php) — dado de
+# usuário, não código; mantém só o .htaccess que protege a pasta
+dashboard/public/assets/uploads/perfil/*
+!dashboard/public/assets/uploads/perfil/.htaccess
