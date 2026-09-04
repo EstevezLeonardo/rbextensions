@@ -3,7 +3,7 @@
         'name' => 'rbextensions/rbextensions',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '14a602247d8518e2eb279f046d8e83235e6c5d4b',
+        'reference' => 'b4c95dc2611df0c5cf5c26f972878a7a0537fa25',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'rbextensions/rbextensions' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '14a602247d8518e2eb279f046d8e83235e6c5d4b',
+            'reference' => 'b4c95dc2611df0c5cf5c26f972878a7a0537fa25',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

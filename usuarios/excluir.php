@@ -78,7 +78,7 @@ if(isset($_POST['excluir'])) {
                         <li><a href="../dashboard/agenda.php"><span><i class="fa-solid fa-calendar-alt"></i></span>Agenda</a></li>
                         <li><a href=""><span><i class="fa-solid fa-server"></i></span>Perfil</a></li>
                         <li><a href="../dashboard/controle-produtos.php"><span><i class="fa-solid fa-box"></i></span>Produtos</a></li>
-                        <li><a href=""><span><i class="fa-solid fa-concierge-bell"></i></span>Serviços</a></li>
+                        <li><a href="../dashboard/servicos.php"><span><i class="fa-solid fa-concierge-bell"></i></span>Serviços</a></li>
                         <li><a href="listar.php" class="actives"><span><i class="fa-solid fa-user"></i></span>Clientes</a></li>
                         <li><a href="../dashboard/vendas.php"><span><i class="fa-solid fa-shopping-cart"></i></span>Vendas</a></li>
                         <li><a href="../dashboard/estoque.php"><span><i class="fa-solid fa-warehouse"></i></span>Estoque</a></li>

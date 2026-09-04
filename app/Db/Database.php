@@ -31,7 +31,7 @@ class Database {
      * sem sobrescrever variáveis de ambiente já definidas fora do PHP.
      * Roda apenas uma vez por processo (cache em variável estática).
      */
-    private static function loadEnv() {
+    public static function loadEnv() {
         static $loaded = false;
         if ($loaded) {
             return;
@@ -61,7 +61,7 @@ class Database {
      * Lê uma variável de ambiente (carregando o .env se necessário),
      * retornando $default caso ela não esteja definida.
      */
-    private static function env($key, $default) {
+    public static function env($key, $default = null) {
         self::loadEnv();
         $value = getenv($key);
         return $value !== false ? $value : $default;

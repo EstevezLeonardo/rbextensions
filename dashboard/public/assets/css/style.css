@@ -377,10 +377,46 @@ align-items: center;
     cursor: pointer;
 }
 /* botão "Cancelar" do modo de edição: mesmo formato, cor neutra */
-.event-form-card #botao-cancelar-edicao{
+.event-form-card #botao-cancelar-edicao,
+.event-form-card .btn-secundario{
     background-color: transparent;
     border: 1px solid #a37407ea !important;
     color: #5f4404;
+}
+.acoes-envio{
+    display: flex;
+    align-items: center;
+}
+/* nomes dos arquivos escolhidos em "Anexar" (dashboard/servicos.php), antes de enviar */
+.email-anexos-selecionados{
+    list-style: none;
+    margin: 0 0 0.8rem !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.email-anexos-selecionados:empty{
+    display: none;
+}
+.email-anexos-selecionados li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #af8a3440;
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem !important;
+    font-size: 0.8rem;
+    color: #5f4404;
+}
+.email-anexos-selecionados button{
+    background: none !important;
+    border: none;
+    color: #7a1f1f;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 0 !important;
+    margin: 0 0 0 0.6rem !important;
 }
 .escondido{
     display: none !important;
@@ -462,6 +498,186 @@ align-items: center;
 .paginacao button:disabled{
     background-color: #5f4404;
     cursor: default;
+}
+
+/* card da Caixa de Entrada (dashboard/servicos.php): mais largo que os
+   320px padrão de .event-form-card, pra caber o menu de pastas +
+   calendário ao lado da lista; column pra "Atualizar"/lista/paginação
+   ficarem empilhados e a lista poder crescer até preencher a altura
+   que .cards (flex + stretch) já iguala à do card "Enviar E-mail" ao
+   lado. flex (em vez de width fixa) pra esticar horizontalmente até
+   sobrar só o espaço do ícone de usuário/sino/logout do header, já
+   que os dois ficam dentro do mesmo .container-fluid. */
+.inbox-card{
+    flex: 1 1 620px;
+    display: flex;
+    flex-direction: column;
+}
+.inbox-cabecalho{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem !important;
+}
+.inbox-cabecalho h3{
+    margin-bottom: 0 !important;
+}
+.inbox-conta-acoes button,
+.inbox-conta-acoes a{
+    display: inline-block;
+    margin: 0 !important;
+    padding: 0.4rem 0.9rem !important;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 4px !important;
+    text-decoration: none;
+    cursor: pointer;
+}
+#botao-email-conectar{
+    background-color: #a37407ea;
+    color: #fff;
+    border: none;
+}
+#botao-email-sair{
+    background-color: transparent;
+    border: 1px solid #a37407ea !important;
+    color: #5f4404;
+}
+.inbox-corpo{
+    display: flex;
+    gap: 1rem;
+    flex: 1;
+    min-height: 0;
+}
+.inbox-menu{
+    width: 150px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+.inbox-pastas{
+    list-style: none;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.inbox-pasta-botao{
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #5f4404;
+    padding: 0.4rem 0.6rem !important;
+    margin: 0 !important;
+    border-radius: 4px !important;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.82rem;
+}
+.inbox-pasta-botao:hover{
+    background-color: #af8a3450;
+}
+.inbox-pasta-botao.ativo{
+    background-color: #a37407ea;
+    color: #fff;
+}
+.inbox-busca .campo{
+    margin-bottom: 0 !important;
+}
+.inbox-busca input{
+    width: 100%;
+    height: 34px;
+    padding: 0 8px !important;
+    border-radius: 4px !important;
+    border: 1px solid #a37407ea !important;
+    background: none !important;
+    color: #5f4404;
+    font-size: 0.8rem;
+}
+.inbox-calendario .campo{
+    margin-bottom: 0.5rem !important;
+}
+.inbox-calendario button{
+    width: 100%;
+    margin: 0.3rem 0 0 !important;
+    padding: 0.4rem !important;
+    font-size: 0.8rem;
+}
+#botao-inbox-limpar-filtro{
+    background-color: transparent;
+    border: 1px solid #a37407ea !important;
+    color: #5f4404;
+}
+.inbox-lista-area{
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+#botao-inbox-atualizar{
+    align-self: flex-start;
+    margin: 0 0 0.6rem !important;
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.8rem;
+}
+/* caixa off-white onde os e-mails da pasta selecionada aparecem */
+.inbox-lista-area .lista-eventos{
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    background-color: #faf6ec;
+    border-radius: 6px;
+    padding: 0.5rem 1rem !important;
+}
+
+/* corpo completo de uma mensagem da caixa de entrada, aberto pelo
+   botão "Ler" (dashboard/servicos.php) */
+.email-corpo{
+    width: 100%;
+    margin-top: 0.6rem !important;
+    padding: 0.8rem !important;
+    background-color: #af8a3420;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 300px;
+    overflow-y: auto;
+    color: #5f4404;
+    font-size: 0.85rem;
+}
+.email-corpo iframe{
+    width: 100%;
+    border: 0;
+    display: block;
+}
+.email-anexos{
+    list-style: none;
+    margin: 0.6rem 0 0 !important;
+    padding: 0 !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+.email-anexos li{
+    margin: 0 !important;
+}
+.email-anexos a{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.7rem;
+    background-color: #af8a3440;
+    border-radius: 4px;
+    color: #5f4404;
+    font-size: 0.8rem;
+    text-decoration: none;
+}
+.email-anexos a:hover{
+    background-color: #af8a3460;
 }
 
 /* CALENDÁRIO (agenda) */

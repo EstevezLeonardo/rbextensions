@@ -20,6 +20,7 @@ class Vaga{
     public $email;
     public $datanascimento;
     public $senha;
+    public $google_refresh_token;
 
 
     /**
@@ -59,6 +60,22 @@ class Vaga{
                         'email' => $this->email,
                         'datanascimento' => $this->datanascimento,
                         'senha' => $this->senha
+            ], [$this->id]);
+    }
+
+    /**
+     * Grava o refresh token do Google (já criptografado por
+     * App\Mail\Crypto) deste usuário, sem mexer nos demais campos.
+     * Usado pela página de e-mail (dashboard/servicos.php) depois do
+     * login OAuth (dashboard/servicos-google-callback.php) ou pra
+     * "sair do e-mail" (passando null) — separado de atualizar()
+     * porque esse valor não faz parte do formulário de cadastro/edição
+     * de usuário.
+     */
+    public function salvarGoogleRefreshToken($refreshTokenCriptografado){
+        $this->google_refresh_token = $refreshTokenCriptografado;
+        return (new Database('rbextensionst'))->update('id = ?', [
+                        'google_refresh_token' => $this->google_refresh_token,
             ], [$this->id]);
     }
 
